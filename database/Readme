@@ -1,0 +1,1 @@
+Run command `docker run --name qm-mongodb -v /var/qm-mongodb/data:/data/db -p 27017:27017 -p 28017:28017 qm-mongodb`
