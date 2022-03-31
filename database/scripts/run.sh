@@ -8,4 +8,4 @@ fi
 
 # Start MongoDB
 echo "Starting MongoDB..."
-/usr/bin/mongod --dbpath /data --auth 
+/usr/bin/mongod --dbpath /data --auth --bind_ip_all

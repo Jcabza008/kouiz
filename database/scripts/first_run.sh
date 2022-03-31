@@ -3,27 +3,24 @@
 ROOTUSER="root"
 ROOTPASS="vkEy8!rJnp"
 ROOTDB="admin"
+ROOTROLE="root"
 # KM User
-SPUSER="qm-restapi"
-SPPASS="vkEy8!rJnp"
-SPDB="kouizmedb"
-SPROLE="readWrite"
+KMUSER="kmserver"
+KMPASS="wkh!hZn8c3"
+KMDB="kouizmedb"
+KMROLE="readWrite"
 
 # Start MongoDB service
 echo "Starting MongoDB for Initial Setup..."
 /usr/bin/mongod --dbpath /data --nojournal --fork --logpath /data/mongodb.log
 
-# Create SP Database
-echo "Creating SP Database..."
-mongo $SPDB --eval "db.createCollection('Test');"
-
 # Create Root User
 echo "Creating Root User..."
-mongo $ROOTDB --eval "db.createUser({ user: '$ROOTUSER', pwd: '$ROOTPASS', roles: [ { role: 'userAdminAnyDatabase', db: '$ROOTDB'}, { role: 'readWriteAnyDatabase', db: '$ROOTDB'}] });"
+mongo $ROOTDB --eval "db.createUser({ user: '$ROOTUSER', pwd: '$ROOTPASS', roles: [ { role: '$ROOTROLE', db: '$ROOTDB'} ] });"
 
-# Create SP User
-echo "Creating SP User..."
-mongo $SPDB --eval "db.createUser({ user: '$SPUSER', pwd: '$SPPASS', roles: [ { role: '$SPROLE', db: '$SPDB' } ] });"
+# Create KMServer User
+echo "Creating KM User..."
+mongo $KMDB --eval "db.createUser({ user: '$KMUSER', pwd: '$KMPASS', roles: [ { role: '$KMROLE', db: '$KMDB' } ] });"
 
 # Stop MongoDB service
 echo "Stopping MongoDB after Initial Setup..."
@@ -35,10 +32,10 @@ echo "MongoDB Root Password: \"$ROOTPASS\""
 echo "MongoDB Root Database: \"$ROOTDB\""
 echo "========================================================================"
 echo "========================================================================"
-echo "MongoDB QM User: \"$SPUSER\""
-echo "MongoDB QM Password: \"$SPPASS\""
-echo "MongoDB QM Database: \"$SPDB\""
-echo "MongoDB QM Role: \"$SPROLE\""
+echo "MongoDB KM User: \"$KMUSER\""
+echo "MongoDB KM Password: \"$KMPASS\""
+echo "MongoDB KM Database: \"$KMDB\""
+echo "MongoDB KM Role: \"$KMROLE\""
 echo "========================================================================"
 
 rm -f /.first_run

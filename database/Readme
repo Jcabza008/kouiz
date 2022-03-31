@@ -1,1 +1,2 @@
-Run command `docker run --name qm-mongodb -v /var/qm-mongodb/data:/data/db -p 27017:27017 -p 28017:28017 qm-mongodb`
+## How to start KouizMe MongoDB manually
+Run command `docker run -d --name km-mongodb -v ~/dev/km-mongodb/data/db:/data/db -p 27017:27017 -p 28017:28017 km-mongodb:dev`

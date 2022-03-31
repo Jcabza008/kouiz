@@ -1,20 +1,13 @@
-FROM debian:jessie-slim
+FROM ubuntu
 
 # Install MongoDB
 RUN apt-get update && \
-apt-get install -y ca-certificates && \
+apt-get install -y ca-certificates gnupg wget && \
 rm -rf /var/lib/apt/lists/*
-RUN gpg --keyserver ha.pool.sks-keyservers.net --recv-keys 0C49F3730359A14518585931BC711F9BA15703C6 && \
-gpg --export $GPG_KEYS > /etc/apt/trusted.gpg.d/mongodb.gpg
-ARG MONGO_PACKAGE=mongodb-org
-ARG MONGO_REPO=repo.mongodb.org
-ENV MONGO_PACKAGE=${MONGO_PACKAGE} MONGO_REPO=${MONGO_REPO}
-ENV MONGO_MAJOR 3.4
-ENV MONGO_VERSION 3.4.18
-RUN echo "deb http://$MONGO_REPO/apt/debian jessie/${MONGO_PACKAGE%-stable}/$MONGO_MAJOR main" | tee "/etc/apt/sources.list.d/${MONGO_PACKAGE%-stable}.list"
-RUN echo "/etc/apt/sources.list.d/${MONGO_PACKAGE%-stable}.list"
+RUN wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | apt-key add -
+RUN echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-5.0.list
 RUN apt-get update
-RUN apt-get install -y ${MONGO_PACKAGE}=$MONGO_VERSION
+RUN apt-get install -y mongodb-org
 
 # Add scripts
 ADD scripts /scripts
