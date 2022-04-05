@@ -5,6 +5,7 @@ services:
     container_name: km-server
     ports:
       - "5001:443"
+      - "5000:80"
     volumes:
       - "$USERPROFILE/dev/km-server/data:/app/logs"
   km-mongodb:
