@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  kmserver:
+    build: kmserver/
+    container_name: km-server
+    ports:
+      - "5001:443"
+    volumes:
+      - "$USERPROFILE/dev/km-server/data:/app/logs"
+  km-mongodb:
+    build: database/
+    container_name: km-mongodb
+    ports: 
+      - "27017:27017"
+      - "28017:28017"
+    volumes: 
+      - "$USERPROFILE/dev/km-mongodb/data:/data/db"

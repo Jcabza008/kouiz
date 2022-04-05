@@ -12,7 +12,6 @@ try
     builder.Services.AddControllers();
 
     // NLog: Setup NLog for Dependency injection
-    builder.Logging.ClearProviders();
     builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
     builder.Host.UseNLog();
 
@@ -25,7 +24,6 @@ try
 
     // Services and Dependency Injection
     builder.Services.AddScoped<IQuizzesService, QuizzesService>();
-
 
     // Swagger API Documentation
     builder.Services.AddSwaggerGen();
@@ -58,6 +56,7 @@ try
         name: "default",
         pattern: "api/{controller=Home}/{action=Index}/{id?}");
 
+    logger.Info("KouizMe Server Starting...");
     app.Run();
 }
 catch (Exception exception)
