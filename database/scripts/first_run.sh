@@ -12,7 +12,7 @@ KMROLE="readWrite"
 
 # Start MongoDB service
 echo "Starting MongoDB for Initial Setup..."
-/usr/bin/mongod --dbpath /data --nojournal --fork --logpath /data/mongodb.log
+/usr/bin/mongod --dbpath /data/db --nojournal --fork --logpath /data/mongodb.log
 
 # Create Root User
 echo "Creating Root User..."
@@ -24,7 +24,7 @@ mongo $KMDB --eval "db.createUser({ user: '$KMUSER', pwd: '$KMPASS', roles: [ { 
 
 # Stop MongoDB service
 echo "Stopping MongoDB after Initial Setup..."
-/usr/bin/mongod --dbpath /data --shutdown
+/usr/bin/mongod --dbpath /data/db --shutdown
 
 echo "========================================================================"
 echo "MongoDB Root User: \"$ROOTUSER\""
