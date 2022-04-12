@@ -21,7 +21,7 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENV ASPNETCORE_ENVIRONMENT=Production
-ENV ASPNETCORE_URLS=https://+:5001
+ENV ASPNETCORE_URLS=https://+:443;http://+:80
 ENV Kestrel__Certificates__Default__Path=/app/server.cert.pfx
 ENV Kestrel__Certificates__Default__Password=dbQWL@6ZaM
 
