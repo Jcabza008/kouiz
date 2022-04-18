@@ -63,45 +63,46 @@ export default class RegisterScreen extends React.Component
     }
     else{
       
-      this.setState({loading:false});
+      // this.setState({loading:false});
 
-      console.log(this.state.username);
-      if(this.state.Accountuser.length > 0)
-      {
-        for(var i = 0;i < this.state.Accountuser.length;i++)
-        {
-          console.log(this.state.Accountuser[i]);
-          if(this.state.username == this.state.Accountuser[i])
-          {
-            errorFlag = true;
-            this.setState({usernameError:"There is already an account with that username"});
-            break;
-          }
-          else if(i == this.state.Accountuser.length - 1)
-          {
-            this.setState({Accountuser: [...this.state.Accountuser, this.state.username]});
-            this.setState({Accountpass: [...this.state.Accountpass, this.state.password]});
-            this.setState({isvisible: true});
-          }
-        }
-      }
-      else
-      {
-        this.setState({Accountuser: [...this.state.Accountuser, this.state.username]});
-        this.setState({Accountpass: [...this.state.Accountpass, this.state.password]});
-        this.setState({isvisible:true});
-      }
+      // console.log(this.state.username);
+      // if(this.state.Accountuser.length > 0)
+      // {
+      //   for(var i = 0;i < this.state.Accountuser.length;i++)
+      //   {
+      //     console.log(this.state.Accountuser[i]);
+      //     if(this.state.username == this.state.Accountuser[i])
+      //     {
+      //       errorFlag = true;
+      //       this.setState({usernameError:"There is already an account with that username"});
+      //       break;
+      //     }
+      //     else if(i == this.state.Accountuser.length - 1)
+      //     {
+      //       this.setState({Accountuser: [...this.state.Accountuser, this.state.username]});
+      //       this.setState({Accountpass: [...this.state.Accountpass, this.state.password]});
+      //       this.setState({isvisible: true});
+      //     }
+      //   }
+      // }
+      // else
+      // {
+      //   this.setState({Accountuser: [...this.state.Accountuser, this.state.username]});
+      //   this.setState({Accountpass: [...this.state.Accountpass, this.state.password]});
+      //   this.setState({isvisible:true});
+      // }
 
-      u = this.state.Accountuser;
-      p = this.state.Accountpass;
+      // u = this.state.Accountuser;
+      // p = this.state.Accountpass;
 
-      
-      fetch('https://192.168.1.2:5001/api/home')
+
+      fetch('https://192.168.0.81:5000/api/home')
         .then((response) => response.json())
         .then((json) => console.log(json))
         .catch((error) => {
         console.error(error);
       });
+
       /*
       fetch('https://192.168.1.6:5001/api/Quizzes',{
       method: 'POST',

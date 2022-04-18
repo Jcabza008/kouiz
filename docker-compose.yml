@@ -7,12 +7,12 @@ services:
       - "5001:443"
       - "5000:80"
     volumes:
-      - "$USERPROFILE/dev/km-server/data:/app/logs"
+      - "~/dev/km-server/data:/app/logs"
   km-mongodb:
     build: database/
     container_name: km-mongodb
-    ports: 
+    ports:
       - "27017:27017"
       - "28017:28017"
-    volumes: 
-      - "$USERPROFILE/dev/km-mongodb/data:/data/db"
+    volumes:
+      - "~/dev/km-mongodb/data:/data/db"

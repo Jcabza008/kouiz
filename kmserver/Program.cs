@@ -1,5 +1,6 @@
 using NLog;
 using NLog.Web;
+using kmserver.Models;
 using kmserver.Services;
 
 var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
@@ -7,6 +8,15 @@ var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurre
 try 
 { 
     var builder = WebApplication.CreateBuilder(args);
+
+    // Add identity
+    builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
+        .AddMongoDbStores<ApplicationUser, ApplicationRole, Guid>
+        (
+            builder.Configuration.GetSection("MongoDB").GetValue<string>("ConnectionString"),
+            builder.Configuration.GetSection("MongoDB").GetValue<string>("Database")
+        );
+
 
     // Add services to the container.
     builder.Services.AddControllers();
@@ -49,6 +59,8 @@ try
     app.UseStaticFiles();
 
     app.UseRouting();
+    app.UseAuthentication();
+    app.UseAuthorization();
 
     app.UseAuthorization();
 
