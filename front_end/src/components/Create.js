@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TextInput, StyleSheet, ScrollView} from "react-native";
 
-import AppButton from "../components/AppButton.js"
+import {AppButton} from "../components/AppButton.js"
 
 export default class Create extends React.Component {
     constructor(props) {
@@ -28,14 +28,15 @@ export default class Create extends React.Component {
     pressCreate = () => {
       if (this.state.opacityValue == 1)
         this.props.navigation.navigate('QuizEditor')
+        this.setState({opacityValue: 0.6, createQuiz: true, nameInputValue: ''})
     }
   
     render()
     {
       return(
-      <View style = {{flex: 1, justifyContent: "center"}}>
+      <View style = {{flex: 1, justifyContent: "center", backgroundColor: 'lightskyblue'}}>
         <View style = {{flex: 5, justifyContent: "center"}}>
-          <Text style = {{textAlign: "center", fontSize: 50}}>Create a new Quiz</Text>
+          <Text style = {{textAlign: "center", fontSize: 50, fontFamily: 'sans-serif', textShadowColor: "grey", textShadowRadius: 20}}>Create a new Quiz!</Text>
         </View>
         <View style = {{flex: 1, justifyContent: "center", paddingHorizontal: 50}}>
         <TextInput placeholder="Quiz Name" onChangeText={NameInputValue=> this.onEnterNameText(NameInputValue)} style={styles.loginInput}></TextInput>
@@ -46,7 +47,7 @@ export default class Create extends React.Component {
         <View style = {{flex: 3, justifyContent: "center", paddingHorizontal: 50}}>
         <AppButton AppButton title="View Quizzes" style={styles.loginContainer} onPress={() => this.props.navigation.navigate('Quizzes')}></AppButton>
         </View>
-        <View style = {{flex: 2}}></View>
+        <View style = {{flex: 4}}></View>
       </View>
       );
     }

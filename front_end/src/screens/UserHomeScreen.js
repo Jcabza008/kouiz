@@ -4,6 +4,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem} from '@react-navigation/drawer';
 
+import FeatherIcon from 'react-native-vector-icons/Feather';
+
 import Home from "../components/Home"
 import Profile from "../components/Profile"
 import Create from "../components/Create"
@@ -19,13 +21,13 @@ export default class UserHomeScreen extends React.Component {
     {
       DrawerScreens.push(<Drawer.Screen 
         name={UserMenu[i].name} 
-        //options={{iconName: DrawerItems[i].iconType}, {iconType: DrawerItems[i].iconType}}
+        drawerIcon={<FeatherIcon name = {UserMenu[i].iconName}> </FeatherIcon>}
         component={UserMenu[i].component}/>)
     }
     return(
       <Drawer.Navigator 
       drawerType="front"
-      initialRouteName="UserHomeScreenDefault"
+      initialRouteName="Home"
       screenOptions={{
         drawerStyle: {
         backgroundColor: 'orange',
@@ -57,7 +59,7 @@ var UserMenu = [
   {
     name:'Profile',
     iconType:'Feather',
-    iconName:'settings',
+    iconName:'user',
     component: Profile
   },
   {
