@@ -96,8 +96,7 @@ export default class RegisterScreen extends React.Component
       p = this.state.Accountpass;
 
       
-      fetch('https://192.168.1.6:5001/api/home')
-      
+      fetch('https://192.168.1.2:5001/api/home')
         .then((response) => response.json())
         .then((json) => console.log(json))
         .catch((error) => {
