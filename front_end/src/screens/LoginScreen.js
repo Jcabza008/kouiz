@@ -3,23 +3,25 @@ import React from "react";
 import {View, Text, TextInput, StyleSheet} from "react-native";
 
 import AppButton from "../components/AppButton"
-
-
+import {u} from "./RegisterScreen";
+import {p} from "./RegisterScreen";
 
 export default class LoginScreen extends React.Component
 {
   constructor(props) {
     super(props)
     this.state = {
-      EmailInputValue: '',
+      UsernameInputValue: '',
       PasswordInputValue: '',
+      usernameError: '',
+      passwordError: '',
       opacityValue: 0.6,
       buttonOpacity: 1
     }
   }
 
-  onEnterEmailText = (EmailInputValue) => {
-    this.setState({EmailInputValue : EmailInputValue});
+  onEnterUsernameText = (UsernameInputValue) => {
+    this.setState({UsernameInputValue : UsernameInputValue});
     if (!(this.state.PasswordInputValue == ""))
       this.setState({opacityValue: 1, buttonOpacity: 0.6})
     else
@@ -28,7 +30,7 @@ export default class LoginScreen extends React.Component
 
   onEnterPasswordText = (PasswordInputValue) => {
     this.setState({PasswordInputValue : PasswordInputValue})
-    if (!(this.state.EmailInputValue == ""))
+    if (!(this.state.UsernameInputValue == ""))
       this.setState({opacityValue: 1, buttonOpacity: 0.6})
     else
       this.setState({opacityValue: 0.6, buttonOpacity: 1})
@@ -38,9 +40,51 @@ export default class LoginScreen extends React.Component
     this.setState({opacityValue: 1})
   }
 
-  pressLogin = () => {
-    if (this.state.opacityValue == 1)
-      this.props.navigation.navigate('UserHome')
+  pressLogin = async () => {
+    this.setState({usernameError:""});
+    this.setState({passwordError:""});
+    
+    if(this.state.opacityValue == 1)
+    {
+    console.log(u);
+    console.log(p);
+
+      for(var i = 0;i < u.length;i++)
+      {
+        console.log(this.state.UsernameInputValue);
+        console.log(u[i]);
+        if(this.state.UsernameInputValue == u[i])
+        {
+          if(this.state.PasswordInputValue == p[i])
+          {
+            this.props.navigation.navigate('UserHome');
+          }
+          else
+          {
+            this.setState({passwordError:"The password is not correct"});
+            break;
+          }
+        }
+        else if(i == u.length - 1)
+        {
+          errorFlag = true;
+            this.setState({usernameError:"The username is not correct"});
+            break;
+        }
+      }
+    }
+    else
+    {
+      if(this.state.UsernameInputValue.length == 0)
+      {
+        this.setState({usernameError:"Please input the username"});
+      }
+
+      if(this.state.PasswordInputValue.length == 0)
+      {
+        this.setState({PasswordInputValue:"Please input the password"});
+      }
+    }
   }
 
   render() {
@@ -48,8 +92,10 @@ export default class LoginScreen extends React.Component
         <View style={{flex: 1, justifyContent: 'center'}}>
         <View style = {{justifyContent: 'center', justifyContent: 'space-around', paddingHorizontal: 20}}>
           <Text style = {styles.loginText}>LOG IN</Text>
-          <TextInput placeholder="Email" onChangeText={EmailInputValue=> this.onEnterEmailText(EmailInputValue)} style={styles.loginInput}></TextInput>
+          <TextInput placeholder="Username" onChangeText={UsernameInputValue=> this.onEnterUsernameText(UsernameInputValue)} style={styles.loginInput}></TextInput>
+          {this.state.usernameError.length > 0 && <Text style = {styles.textDanger}>{this.state.usernameError}</Text>}
           <TextInput placeholder="Password" onChangeText={PasswordInputValue=> this.onEnterPasswordText(PasswordInputValue)} style={styles.loginInput}></TextInput>
+          {this.state.passwordError.length > 0 && <Text style = {styles.textDanger}>{this.state.passwordError}</Text>}
           <View style = {{paddingVertical: 20, opacity: this.state.opacityValue}}>
             <AppButton title="LOG IN" opacity={this.state.buttonOpacity} onPress={() => {this.pressLogin()}} style={{elevation: 8, backgroundColor: 'orange', borderRadius: 200, paddingVertical: 10,}}/>
           </View>
@@ -105,5 +151,8 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10
+  },
+  textDanger:{
+    color : "#dc3545"
   }
 });

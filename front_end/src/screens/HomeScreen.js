@@ -20,7 +20,8 @@ export default function HomeScreen ({navigation}){
           </View>
           <View style={{justifyContent: 'center'}}>
             <Text style={{textAlign: 'center', marginTop: 200}}>Banana</Text>
-          </View><View style={{justifyContent: 'center'}}>
+          </View>
+          <View style={{justifyContent: 'center'}}>
             <Text style={{textAlign: 'center', marginTop: 200}}>Turtle</Text>
           </View>
         </Swiper>
