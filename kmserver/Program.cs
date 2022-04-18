@@ -10,8 +10,8 @@ try
     var builder = WebApplication.CreateBuilder(args);
 
     // Add identity
-    builder.Services.AddIdentity<User, UserRole>()
-        .AddMongoDbStores<User, UserRole, Guid>
+    builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
+        .AddMongoDbStores<ApplicationUser, ApplicationRole, Guid>
         (
             builder.Configuration.GetSection("MongoDB").GetValue<string>("ConnectionString"),
             builder.Configuration.GetSection("MongoDB").GetValue<string>("Database")
@@ -34,6 +34,7 @@ try
 
     // Services and Dependency Injection
     builder.Services.AddScoped<IQuizzesService, QuizzesService>();
+    builder.Services.AddScoped<IUsersService, UsersService>();
 
     // Swagger API Documentation
     builder.Services.AddSwaggerGen();
@@ -59,6 +60,8 @@ try
     app.UseStaticFiles();
 
     app.UseRouting();
+    app.UseAuthentication();
+    app.UseAuthorization();
 
     app.UseAuthorization();
 
