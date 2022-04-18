@@ -34,7 +34,6 @@ try
 
     // Services and Dependency Injection
     builder.Services.AddScoped<IQuizzesService, QuizzesService>();
-    builder.Services.AddScoped<IUsersService, UsersService>();
 
     // Swagger API Documentation
     builder.Services.AddSwaggerGen();

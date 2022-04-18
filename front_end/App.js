@@ -11,7 +11,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from "./src/screens/HomeScreen"
 import RegisterScreen from "./src/screens/RegisterScreen"
 import LoginScreen from "./src/screens/LoginScreen"
-import QuizEditor from "./src/screens/QuizEditor"
+import QuizEditor from "./src/screens/QuizEditorScreen"
 import UserHomeScreen from "./src/screens/UserHomeScreen"
 import Home from "./src/components/Home"
 
@@ -33,7 +33,6 @@ class Quiz
   {
     return this.name;
   }
-  
 }
 
 class UserQuizzes
