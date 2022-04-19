@@ -1,4 +1,5 @@
 # KouizMe
+[![build and test](https://github.com/Jcabza008/kouizme/actions/workflows/build_and_test.yml/badge.svg)](https://github.com/Jcabza008/kouizme/actions/workflows/build_and_test.yml)
 ## Development
 ### Versioning
 Versions are increased when a pull request is merged into `development` or `master`. The correct new version is determined by the prefix in the name of the pull request.
