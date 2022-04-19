@@ -1,8 +1,9 @@
 import React from "react";
+import { View } from "react-native";
 
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem} from '@react-navigation/drawer';
+
+import FeatherIcon from 'react-native-vector-icons/Feather';
 
 import Home from "../components/Home"
 import Profile from "../components/Profile"
@@ -19,13 +20,13 @@ export default class UserHomeScreen extends React.Component {
     {
       DrawerScreens.push(<Drawer.Screen 
         name={UserMenu[i].name} 
-        //options={{iconName: DrawerItems[i].iconType}, {iconType: DrawerItems[i].iconType}}
+        drawerIcon={<FeatherIcon name = {UserMenu[i].iconName}> </FeatherIcon>}
         component={UserMenu[i].component}/>)
     }
     return(
       <Drawer.Navigator 
       drawerType="front"
-      initialRouteName="UserHomeScreenDefault"
+      initialRouteName="Home"
       screenOptions={{
         drawerStyle: {
         backgroundColor: 'orange',
@@ -34,10 +35,10 @@ export default class UserHomeScreen extends React.Component {
       }}
       drawerContent={props => {
         return (
-          <DrawerContentScrollView {...props}>
-            <DrawerItemList {...props} />
-            <DrawerItem label="Logout" onPress={() => props.navigation.navigate('MainHome')} />
-          </DrawerContentScrollView>
+            <DrawerContentScrollView {...props}>
+              <DrawerItemList {...props} />
+              <DrawerItem label="Logout" onPress={() => props.navigation.navigate('MainHome')} />
+            </DrawerContentScrollView>
         )
       }}
       >
@@ -50,26 +51,18 @@ export default class UserHomeScreen extends React.Component {
 var UserMenu = [
   {
     name:'Home',
-    iconType:'Material',
-    iconName:'face-profile',
     component: Home
   },
   {
     name:'Profile',
-    iconType:'Feather',
-    iconName:'settings',
     component: Profile
   },
   {
     name:'Create',
-    iconType:'Feather',
-    iconName:'settings',
     component: Create
   },
   {
     name:'Quizzes',
-    iconType:'Material',
-    iconName:'bookmark-check-outline',
     component: Quizzes
   }
 ]

@@ -17,28 +17,33 @@ export default class Create extends React.Component {
     onEnterNameText = (NameInputValue) => {
       this.setState({NameInputValue : NameInputValue});
       if (!(this.state.NameInputValue == ""))
-        this.setState({opacityValue: 1, buttonOpacity: 0.6})
+        this.setState({opacityValue: 1, buttonOpacity: 0.6});
       else
-        this.setState({opacityValue: 0.6, buttonOpacity: 1})
+        this.setState({opacityValue: 0.6, buttonOpacity: 1});
+      console.log(this.state.NameInputValue);
     }
+
     setOpacity =() => {
-      this.setState({opacityValue: 1})
+      this.setState({opacityValue: 1});
     }
   
     pressCreate = () => {
       if (this.state.opacityValue == 1)
-        this.props.navigation.navigate('QuizEditor')
+      {
+        this.setState({opacityValue: 0.6, createQuiz: true, NameInputValue: ''});
+        this.props.navigation.navigate('QuizEditor');
+      }
     }
   
     render()
     {
       return(
-      <View style = {{flex: 1, justifyContent: "center"}}>
+      <View style = {{flex: 1, justifyContent: "center", backgroundColor: 'lightskyblue'}}>
         <View style = {{flex: 5, justifyContent: "center"}}>
-          <Text style = {{textAlign: "center", fontSize: 50}}>Create a new Quiz</Text>
+          <Text style = {{textAlign: "center", fontSize: 50, fontFamily: 'sans-serif', textShadowColor: "grey", textShadowRadius: 20}}>Create a new Quiz!</Text>
         </View>
         <View style = {{flex: 1, justifyContent: "center", paddingHorizontal: 50}}>
-        <TextInput placeholder="Quiz Name" onChangeText={NameInputValue=> this.onEnterNameText(NameInputValue)} style={styles.loginInput}></TextInput>
+        <TextInput placeholder="Quiz Name" onChangeText={NameInputValue=> this.onEnterNameText(NameInputValue)} style={styles.loginInput}>{this.state.NameInputValue}</TextInput>
         </View>
         <View style = {{flex: 2, justifyContent: "center", paddingHorizontal: 50, opacity: this.state.opacityValue}}>
           <AppButton AppButton title="Create" opacity={this.state.buttonOpacity} style={styles.loginContainer} onPress={() => this.pressCreate()}></AppButton>
@@ -46,7 +51,7 @@ export default class Create extends React.Component {
         <View style = {{flex: 3, justifyContent: "center", paddingHorizontal: 50}}>
         <AppButton AppButton title="View Quizzes" style={styles.loginContainer} onPress={() => this.props.navigation.navigate('Quizzes')}></AppButton>
         </View>
-        <View style = {{flex: 2}}></View>
+        <View style = {{flex: 4}}></View>
       </View>
       );
     }

@@ -1,0 +1,114 @@
+name: Bump version
+
+on:
+  pull_request:
+    branches:
+      - master
+      - development
+    types:
+      - closed
+    paths-ignore:
+      - '.bumpversion.cfg'
+      - '.env'
+
+env:
+  ENV_FILE: .env
+  BUMPVERSION_FLAGS: "--verbose --allow-dirty"
+
+jobs:
+  bumpversion:
+    if: github.event.pull_request.merged
+    name: Bump version
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Log GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo "$GITHUB_CONTEXT"
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GO_MODULES_TOKEN }}
+
+      - name: Import environment variables from .env
+        id: import-env
+        shell: bash
+        run: |
+          while read line; do
+            echo "$line" >> $GITHUB_ENV
+          done < ${{ env.ENV_FILE }}
+      - name: 'Make all scripts executable'
+        run: |
+          chmod +x $SCRIPTS_ROOT/*
+          chmod +x $SCRIPTS_ROOT/ci/*
+        if: runner.os == 'Linux'
+
+      - name: Setup Env
+        run: $SCRIPTS_ROOT/ci/setup-env-ubuntu.sh
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+            python-version: '3.x'
+
+      - name: Setup Python Env
+        run: |
+          pip install bump2version
+          pip install pipenv
+          pipenv --where --venv --py --envs --support install --three --dev
+      - name: Stage changes
+        run: |
+          export COMMIT_OLD_MSG=$(git log --format=%B -n1)
+          export COMMIT_AUTHOR=$(git log --format=%an -n1)
+          export COMMIT_AUTHOR_EMAIL=$(git log --format=%ae -n1)
+          git config --global user.name "$COMMIT_AUTHOR"
+          git config --global user.email "$COMMIT_AUTHOR_EMAIL"
+          git config --global url."https://${{ secrets.GO_MODULES_TOKEN }}:@github.com/".insteadOf "https://github.com"
+      - name: Save current version
+        run: |
+          echo CURR_VERSION=$(echo $VERSION) >> $GITHUB_ENV
+
+      # bump version depending on pull request title convention
+      - name: Bump patch version
+        if: startsWith(github.event.pull_request.title, 'patch')
+        run: |
+          pipenv run bump2version patch ${{ env.BUMPVERSION_FLAGS }}
+      - name: Bump minor version
+        if: startsWith(github.event.pull_request.title, 'feature')
+        run: |
+          pipenv run bump2version minor ${{ env.BUMPVERSION_FLAGS }}
+      - name: Bump major version
+        if: startsWith(github.event.pull_request.title, 'major')
+        run: |
+          pipenv run bump2version major ${{ env.BUMPVERSION_FLAGS }}
+      - name: Bump release
+        if: startsWith(github.event.pull_request.title, 'release')
+        run: |
+          pipenv run bump2version release ${{ env.BUMPVERSION_FLAGS }}
+      - name: Reload Environmental Variables
+        id: reload-env
+        shell: bash
+        run: |
+          while read line; do
+            echo "$line" >> $GITHUB_ENV
+          done < ${{ env.ENV_FILE }}
+      # amend last pr commit with  and push
+      - name: Amend PR commit with bumped version
+        id: pushtag
+        run: |
+          git add .bumpversion.cfg
+          git add .env
+          git add ./front_end/package.json
+          git add ./front_end/app.json
+          git add ./kmserver/kmserver.csproj
+          git add ./kmserver.tests/kmserver.tests.csproj
+          git commit --amend -m "${{ github.event.pull_request.title }}"
+          git push --force
+          if [[ $VERSION != $CURR_VERSION ]]; then
+              git tag -a "v$VERSION" -m "Bump version: v$CURR_VERSION -> v$VERSION"
+              git push --tag
+          fi
