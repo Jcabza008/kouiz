@@ -38,9 +38,9 @@ export default class Create extends React.Component {
     render()
     {
       return(
-      <View style = {{flex: 1, justifyContent: "center", backgroundColor: 'lightskyblue'}}>
+      <View style = {{flex: 1, justifyContent: "center", backgroundColor: '#FBFBFD'}}>
         <View style = {{flex: 5, justifyContent: "center"}}>
-          <Text style = {{textAlign: "center", fontSize: 50, fontFamily: 'sans-serif', textShadowColor: "grey", textShadowRadius: 20}}>Create a new Quiz!</Text>
+          <Text style = {{textAlign: "center", fontSize: 50, color: "#1B43E9", textShadowColor: "grey", textShadowRadius: 10}}>Create a new Quiz!</Text>
         </View>
         <View style = {{flex: 1, justifyContent: "center", paddingHorizontal: 50}}>
         <TextInput placeholder="Quiz Name" onChangeText={NameInputValue=> this.onEnterNameText(NameInputValue)} style={styles.loginInput}>{this.state.NameInputValue}</TextInput>

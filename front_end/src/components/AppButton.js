@@ -16,7 +16,7 @@ export default AppButton
 const styles = StyleSheet.create({
   appButtonText: {
     fontSize: 18,
-    color: "#fff",
+    color: "black",
     fontWeight: "bold",
     alignSelf: "center",
     textTransform: "uppercase"

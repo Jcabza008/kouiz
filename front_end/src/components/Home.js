@@ -1,8 +1,8 @@
 import React from "react";
-import { View, Text, StyleSheet} from "react-native";
+import { View, Text, StyleSheet, ScrollView} from "react-native";
 import Swiper from 'react-native-swiper'
 
-import AppButton from "../components/AppButton.js"
+import AppButton from "../components/AppButton.js";
 
 export default class Home extends React.Component {
 
@@ -23,16 +23,16 @@ export default class Home extends React.Component {
       let tempQuizzes = []
       var Quiz = ({quizName}) => (
         <View style = {{alignItems: 'center'}}>
-          <View style={{width: 300, height: 300, borderWidth: 2, borderColor: 'black', marginBottom: 20, backgroundColor: 'white', elevation: 20}}>
+          <View style={{width: 300, height: 300, borderWidth: 2, borderColor: 'black', backgroundColor: 'white', marginLeft: 40, marginRight: 40}}>
               <View style = {{flex: 2}}>
                 <Text style = {{marginTop: 30, marginLeft: 35, marginRight: 35, fontWeight: 'bold', fontSize: 30}}>{quizName}</Text>
               </View>
               <View style = {{flex: 1, borderTopColor: "black", borderTopWidth: 2, marginLeft: 20, marginRight: 20, flexDirection: "row"}}>
               <View style = {{flex: 1, flexDirection: "row", justifyContent: "center", marginTop: 20}}>
-                <AppButton title = "Quiz" style={styles.loginContainer}/>
+                <AppButton title = "Quiz" style={styles.quiz_button}/>
               </View>
               <View style = {{flex: 1, flexDirection: "row", justifyContent: "center", marginTop: 20}}>
-                <AppButton title = "Edit" style={styles.loginContainer} onPress = {this.onPressEdit}/>
+                <AppButton title = "Edit" style={styles.quiz_button} onPress = {this.onPressEdit}/>
               </View>
             </View>
           </View>
@@ -45,14 +45,17 @@ export default class Home extends React.Component {
       }
 
       return(
-      <View style = {{flex: 1, backgroundColor: 'lightskyblue'}}>
-        <View style = {{flex: 3, justifyContent: "center", marginBottom: 50}}>
-          <Text style = {{textAlign: "center", fontSize: 40, fontFamily: 'sans-serif', textShadowColor: "grey", textShadowRadius: 20}}>Recent Quizzes</Text>
+      <View style = {{flex: 1, backgroundColor: '#FBFBFD'}}>
+        <View style = {{flex: 3, justifyContent: "center"}}>
+          <Text style = {{textAlign: "center", fontSize: 15}}>Welcome back, Username!</Text>
         </View>
-        <View style={{flex: 8, justifyContent: 'center',  alignItems: 'center'}}>
-          <Swiper showsButtons={false} style={{justifyContent: 'center',  alignItems: 'center'}}>
+        <View style = {{flex: 3, justifyContent: "center"}}>
+          <Text style = {{textAlign: "center", fontSize: 30}}>Recent Quizzes</Text>
+        </View>
+        <View style={{flex: 8, justifyContent: 'center',  alignItems: 'center', padding: 20}}>
+          <ScrollView horizontal = {true}>
                 {tempQuizzes}
-          </Swiper>
+          </ScrollView>
         </View>
       </View>
       );
@@ -61,11 +64,13 @@ export default class Home extends React.Component {
 
   
   const styles = StyleSheet.create({
-    loginContainer: {
-      backgroundColor: 'orange',
+    quiz_button: {
       borderRadius: 200,
       height: 40,
       width: 100,
-      justifyContent: 'center'
+      justifyContent: 'center',
+      backgroundColor: 'white',
+      borderWidth: 1,
+      borderColor: 'blue',
     }
   });

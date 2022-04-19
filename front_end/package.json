@@ -1,6 +1,6 @@
 {
   "name": "kouizme",
-  "version": "0.2.0-beta",
+  "version": "0.2.1-beta",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
