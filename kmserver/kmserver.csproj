@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 	<PropertyGroup>
+	<Version>0.0.0</Version>
 	<TargetFramework>net6.0</TargetFramework>
 	<Nullable>enable</Nullable>
 	<ImplicitUsings>enable</ImplicitUsings>
@@ -41,7 +42,7 @@
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>
-  
+
     <PropertyGroup>
 	    <EnableDefaultContentItems>false</EnableDefaultContentItems>
     </PropertyGroup>
@@ -49,5 +50,4 @@
 	 <PropertyGroup>
       <DockerfileRunArguments>--net km-net -v $(USERPROFILE)/dev/km-server/data/:/app/bin/Debug/net6.0/logs/</DockerfileRunArguments>
     </PropertyGroup>
- 
 </Project>
