@@ -1,7 +1,6 @@
 import React from "react";
+import { View } from "react-native";
 
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem} from '@react-navigation/drawer';
 
 import FeatherIcon from 'react-native-vector-icons/Feather';
@@ -36,10 +35,10 @@ export default class UserHomeScreen extends React.Component {
       }}
       drawerContent={props => {
         return (
-          <DrawerContentScrollView {...props}>
-            <DrawerItemList {...props} />
-            <DrawerItem label="Logout" onPress={() => props.navigation.navigate('MainHome')} />
-          </DrawerContentScrollView>
+            <DrawerContentScrollView {...props}>
+              <DrawerItemList {...props} />
+              <DrawerItem label="Logout" onPress={() => props.navigation.navigate('MainHome')} />
+            </DrawerContentScrollView>
         )
       }}
       >
@@ -52,26 +51,18 @@ export default class UserHomeScreen extends React.Component {
 var UserMenu = [
   {
     name:'Home',
-    iconType:'Material',
-    iconName:'face-profile',
     component: Home
   },
   {
     name:'Profile',
-    iconType:'Feather',
-    iconName:'user',
     component: Profile
   },
   {
     name:'Create',
-    iconType:'Feather',
-    iconName:'settings',
     component: Create
   },
   {
     name:'Quizzes',
-    iconType:'Material',
-    iconName:'bookmark-check-outline',
     component: Quizzes
   }
 ]
