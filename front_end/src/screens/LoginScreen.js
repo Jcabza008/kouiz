@@ -124,7 +124,7 @@ export default class LoginScreen extends React.Component
           <TextInput placeholder="Password" onChangeText={PasswordInputValue=> this.onEnterPasswordText(PasswordInputValue)} style={styles.loginInput}></TextInput>
           {this.state.passwordError.length > 0 && <Text style = {styles.textDanger}>{this.state.passwordError}</Text>}
           <View style = {{paddingVertical: 20, opacity: this.state.opacityValue}}>
-            <AppButton title="LOG IN" opacity={this.state.buttonOpacity} onPress={() => {this.pressLogin()}} style={{elevation: 8, backgroundColor: 'orange', borderRadius: 200, paddingVertical: 10,}}/>
+            <AppButton title="LOG IN" opacity={this.state.buttonOpacity} onPress={() => this.props.navigation.navigate('UserHome')} style={{elevation: 8, backgroundColor: 'orange', borderRadius: 200, paddingVertical: 10,}}/>
           </View>
           <Text style = {styles.loginText}>DON'T HAVE AN ACCOUNT?</Text>
           <View style = {{paddingVertical: 20}}>

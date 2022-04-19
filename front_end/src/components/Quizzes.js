@@ -3,7 +3,7 @@ import { View, Text, ScrollView, SafeAreaView, Modal, StyleSheet, Pressable} fro
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import {AppButton} from "../components/AppButton.js"
+import AppButton from "../components/AppButton.js"
 
 
 export default class Quizzes extends React.Component {
@@ -30,6 +30,16 @@ export default class Quizzes extends React.Component {
     {
       this.setState({deleteQuiz: false})
     }
+
+    onPressEdit = () =>
+    {
+      this.props.navigation.navigate('QuizEditor')
+    }
+
+    onPressQuiz = () =>
+    {
+      this.props.navigation.navigate('Quiz')
+    }
   
     
     render()
@@ -43,10 +53,10 @@ export default class Quizzes extends React.Component {
             </View>
             <View style = {{flex: 1, borderTopColor: "black", borderTopWidth: 2, marginLeft: 20, marginRight: 20, flexDirection: "row"}}>
             <View style = {{flex: 1, flexDirection: "row", justifyContent: "center", marginTop: 20}}>
-              <AppButton title = "Quiz" style={styles.loginContainer}/>
+              <AppButton title = "Quiz" style={styles.loginContainer}  onPress = {this.onPressQuiz}/>
             </View>
             <View style = {{flex: 1, flexDirection: "row", justifyContent: "center", marginTop: 20}}>
-              <AppButton title = "Edit" style={styles.loginContainer}/>
+              <AppButton title = "Edit" style={styles.loginContainer} onPress = {this.onPressEdit}/>
             </View>
           </View>
         </View>
@@ -64,13 +74,21 @@ export default class Quizzes extends React.Component {
               <Modal animationType="slide" transparent={true} visible={this.state.deleteQuiz}>
                 <View style={styles.centeredView}>
                   <View style={styles.modalView}>
-                    <Text style={styles.modalText}>Hello World!</Text>
-                    <Pressable
-                      style={[styles.button, styles.buttonClose]}
-                      onPress={() => this.hideDelete()}
-                    >
-                    <Text style={styles.textStyle}>Hide Modal</Text>
-                    </Pressable>
+                    <Text style={styles.modalText}>Are you sure?</Text>
+                    <View style = {{flexDirection: "row", padding: 20}}>
+                      <Pressable
+                        style={[styles.button, styles.buttonClose]}
+                        onPress={() => this.hideDelete()}
+                      >
+                      <Text style={styles.textStyle}>Yes</Text>
+                      </Pressable>
+                      <Pressable
+                        style={[styles.button, styles.buttonClose]}
+                        onPress={() => this.hideDelete()}
+                      >
+                      <Text style={styles.textStyle}>No</Text>
+                      </Pressable>
+                    </View>
                   </View>
                 </View>
               </Modal>
@@ -113,7 +131,7 @@ export default class Quizzes extends React.Component {
     },
     button: {
       borderRadius: 20,
-      padding: 10,
+      padding: 20,
       elevation: 2
     },
     buttonOpen: {
@@ -125,10 +143,12 @@ export default class Quizzes extends React.Component {
     textStyle: {
       color: "white",
       fontWeight: "bold",
-      textAlign: "center"
+      textAlign: "center",
+      fontSize: 20
     },
     modalText: {
       marginBottom: 15,
-      textAlign: "center"
+      textAlign: "center",
+      fontSize: 20
     }
   });
