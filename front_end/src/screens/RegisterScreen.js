@@ -76,25 +76,28 @@ export default class RegisterScreen extends React.Component {
 
 			this.setState({loading:false});
 
-			let response = KMServerClient.registerUser(new UserRegisterModel({
-				username: this.state.username,
-				firstname: this.state.firstname,
-				lastname: this.state.lastname,
-				password: this.state.password
-			}));
-			if(response.error != null) {
-				console.error(error);
-			} else {
-				response = KMServerClient.loginUser(new UserLoginModel({
-					username: this.state.username,
-					password: this.state.password
-				}));
+			let response = KMServerClient.registerUser(new UserRegisterModel(
+				this.state.username,
+				this.state.firstname,
+				this.state.lastname,
+				this.state.password
+			))
+			.then(response => {
 				if(response.error != null) {
-					console.error(error);
+				console.error(response.error);
 				} else {
-					this.props.navigation.navigate('UserHome');
+					KMServerClient.loginUser(new UserLoginModel(
+						this.state.username,
+						this.state.password
+					)).then(response => {
+						if(response.error != null) {
+							console.error(response.error);
+						} else {
+							this.props.navigation.navigate('UserHome');
+						}
+					});
 				}
-			}
+			});
 		}
  	}
 
