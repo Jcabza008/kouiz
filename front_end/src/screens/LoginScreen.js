@@ -2,9 +2,9 @@ import React from "react";
 
 import {View, Text, TextInput, StyleSheet} from "react-native";
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {backendCookie} from "./RegisterScreen";
 import AppButton from "../components/AppButton"
-import {u} from "./RegisterScreen";
-import {p} from "./RegisterScreen";
 
 export default class LoginScreen extends React.Component
 {
@@ -41,14 +41,40 @@ export default class LoginScreen extends React.Component
   }
 
   pressLogin = async () => {
+    /*
     this.setState({usernameError:""});
     this.setState({passwordError:""});
-    
+    */
     if(this.state.opacityValue == 1)
     {
-    console.log(u);
-    console.log(p);
 
+      fetch('http://192.168.1.2:5000/api/Auth',{
+        method: 'PUT',
+        body: JSON.stringify({
+          "username": this.state.UsernameInputValue,
+          "password": this.state.PasswordInputValue
+        }),
+        headers: {
+          'accept' : 'text/plain',
+          'Content-type': 'application/json'
+        }
+      })
+      .then(response => {
+        if(!response.ok) {
+          console.error("Wrong username or password");
+        } else {
+          AsyncStorage.setItem(backendCookie.VALUE,response.headers.get("set-cookie"))
+          this.props.navigation.navigate('UserHome');
+        }
+      });
+      //.then((response) => response.json())
+      //.then((responsejson) => {
+        //console.log(responsejson);
+      //})
+      //this.props.navigation.navigate('UserHome');
+    }
+
+      /*
       for(var i = 0;i < u.length;i++)
       {
         console.log(this.state.UsernameInputValue);
@@ -85,6 +111,7 @@ export default class LoginScreen extends React.Component
         this.setState({PasswordInputValue:"Please input the password"});
       }
     }
+    */
   }
 
   render() {

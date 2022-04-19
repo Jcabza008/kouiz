@@ -1,12 +1,12 @@
 import React from "react";
 import { View, Text, TextInput, StyleSheet} from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import AppButton from "../components/AppButton.js"
-import Modal from "react-native-modal"
 
-let u = [];
-let p = [];
-
+export const backendCookie = {
+  VALUE: "backend",
+}
 export default class RegisterScreen extends React.Component
 {
   constructor(props) {
@@ -15,12 +15,14 @@ export default class RegisterScreen extends React.Component
       password: "",
       errorMessage: "",
       username: "",
+      firstname: "",
+      lastname: "",
       confirmPassword: "",
       usernameError:"",
+      firstnameError:"",
+      lastnameError:"",
       confirmError:"",
       loading: false,
-      Accountuser: [],
-      Accountpass: [],
       isvisible: false
     }
   }
@@ -31,11 +33,23 @@ export default class RegisterScreen extends React.Component
 
     this.setState({errorMessage:""});
     this.setState({usernameError:""});
+    this.setState({firstnameError:""});
+    this.setState({lastnameError:""});
     this.setState({confirmError:""});
 
     if(this.state.username.length == 0){
       errorFlag = true;
       this.setState({usernameError:"Username has no input"});
+    }
+
+    if(this.state.firstname.length == 0){
+      errorFlag = true;
+      this.setState({firstnameError:"First name has no input"});
+    }
+
+    if(this.state.lastname.length == 0){
+      errorFlag = true;
+      this.setState({lastnameError:"Last name has no input"});
     }
 
     if(this.state.password.length == 0){
@@ -63,8 +77,30 @@ export default class RegisterScreen extends React.Component
     }
     else{
       
-      // this.setState({loading:false});
+      this.setState({loading:false});
 
+      /*
+      try {
+        await AsyncStorage.setItem("bob","b");
+      }
+      catch (error){
+        console.log(error);
+      }
+
+      try {
+        const v = await AsyncStorage.getItem("bob");
+        if(v != null)
+        {
+          console.log(v);
+        }
+        else{
+          console.log("it is null");
+        }
+      }
+      catch (error){
+        console.log(error);
+      }
+      */
       // console.log(this.state.username);
       // if(this.state.Accountuser.length > 0)
       // {
@@ -95,16 +131,8 @@ export default class RegisterScreen extends React.Component
       // u = this.state.Accountuser;
       // p = this.state.Accountpass;
 
-
-      fetch('https://192.168.0.81:5000/api/home')
-        .then((response) => response.json())
-        .then((json) => console.log(json))
-        .catch((error) => {
-        console.error(error);
-      });
-
       /*
-      fetch('https://192.168.1.6:5001/api/Quizzes',{
+      fetch('http://192.168.1.2:5000/api/Quizzes',{
       method: 'POST',
       body: JSON.stringify({
         "ownerID": "steven",
@@ -129,12 +157,37 @@ export default class RegisterScreen extends React.Component
       })
       console.log("1");
       */
-  }
-}
 
-  changepopup =() => {
-    this.setState({isvisible: (!this.state.isvisible)})
-  }
+
+      fetch('http://192.168.1.2:5000/api/Auth',{
+        method: 'POST',
+        body: JSON.stringify({
+          "username": this.state.username,
+          "firstname": this.state.firstname,
+          "lastname": this.state.lastname,
+          "password": this.state.password
+        }),
+        headers: {
+          'accept' : 'text/plain',
+          'Content-type': 'application/json'
+        }
+      })
+      //.then((response) => AsyncStorage.setItem(backendCookie,response.headers.get("set-cookie")))
+      .then((response) => response.json())
+      .then((responsejson) => {
+        console.log(responsejson);
+        this.props.navigation.navigate("Login");
+      })
+      .catch((error) => {
+        console.error(error);
+        this.setState({usernameError:"Username has been taken"});
+      })
+      //console.log(await AsyncStorage.getItem(backendCookie));
+
+
+    }
+  
+}
 
   render() {
     return(
@@ -143,16 +196,14 @@ export default class RegisterScreen extends React.Component
           <Text style = {styles.loginText}>SIGN UP WITH EMAIL AND PASSWORD</Text>
           <TextInput placeholder="Username" style={styles.loginInput} onChangeText={username => this.setState({username})}></TextInput>
             {this.state.usernameError.length > 0 && <Text style = {styles.textDanger}>{this.state.usernameError}</Text>}
+          <TextInput placeholder="First Name" style={styles.loginInput} onChangeText={firstname => this.setState({firstname})}></TextInput>
+            {this.state.usernameError.length > 0 && <Text style = {styles.textDanger}>{this.state.usernameError}</Text>}
+          <TextInput placeholder="Last Name" style={styles.loginInput} onChangeText={lastname => this.setState({lastname})}></TextInput>
+            {this.state.usernameError.length > 0 && <Text style = {styles.textDanger}>{this.state.usernameError}</Text>}
           <TextInput placeholder="Password" style={styles.loginInput} onChangeText={password=> this.setState({password})}></TextInput>
             {this.state.errorMessage.length > 0 && <Text style = {styles.textDanger}>{this.state.errorMessage}</Text>}
           <TextInput placeholder="Confirm Password" style={styles.loginInput} onChangeText={confirmPassword => this.setState({confirmPassword})}></TextInput>
             {this.state.confirmError.length > 0 && <Text style = {styles.textDanger}>{this.state.confirmError}</Text>}
-          <Modal isVisible = {this.state.isvisible}>
-            <View style = {{flex:1, justifyContent:'center', alignItems:"center"}}>
-              <Text style = {styles.modalContainer}>Your Account has been created</Text>
-              <AppButton title = "Ok" style = {styles.okContainer}onPress ={() => this.changepopup()}/>
-            </View>
-          </Modal>
           <View style = {{paddingVertical: 20}}>
             <AppButton title="REGISTER" style={styles.registerContainer} opacity= {0.6} onPress={() => this.formValidation()}/>
           </View>
@@ -165,9 +216,6 @@ export default class RegisterScreen extends React.Component
     );
   }
 }
-
-export {u};
-export{p};
 
 const styles = StyleSheet.create({
   imageContainer: {
