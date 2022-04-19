@@ -1,13 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using kmserver.Models;
-using kmserver.Services;
 using Microsoft.AspNetCore.Authorization;
-using System.ComponentModel.DataAnnotations;
 
 namespace kmserver.Controllers
 {
@@ -42,7 +36,7 @@ namespace kmserver.Controllers
                 }
                 else
                 {
-                    return Json(result);
+                    return StatusCode(510, result);
                 }
             }
             return StatusCode(520);
@@ -60,13 +54,13 @@ namespace kmserver.Controllers
                     Microsoft.AspNetCore.Identity.SignInResult result = await signInManager.PasswordSignInAsync(appUser, userLogin.Password, false, false);
                     if (result.Succeeded)
                     {
-                        return Ok();
+                        return Ok(appUser);
                     }
                 }
                 ModelState.AddModelError(nameof(userLogin.Username), "Login Failed: Invalid Username or Password");
             }
 
-            return NotFound();
+            return StatusCode(530);
         }
 
         [HttpDelete]

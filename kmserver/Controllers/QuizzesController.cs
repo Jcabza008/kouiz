@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
 using kmserver.Models;
 using kmserver.Services;
 using kmserver.Utils;
@@ -7,6 +10,8 @@ using kmserver.Utils;
 
 namespace kmserver.Controllers
 {
+
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class QuizzesController : ControllerBase
