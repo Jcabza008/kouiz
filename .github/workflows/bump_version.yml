@@ -71,7 +71,7 @@ jobs:
       - name: Save current version
         run: |
           echo CURR_VERSION=$(echo $VERSION) >> $GITHUB_ENV
-      
+
       # bump version depending on pull request title convention
       - name: Bump patch version
         if: startsWith(github.event.pull_request.title, 'patch')
@@ -102,7 +102,10 @@ jobs:
         run: |
           git add .bumpversion.cfg
           git add .env
-          git add Makefile
+          git add ./front_end/package.json
+          git add ./front_end/app.json
+          git add ./kmserver/kmserver.csproj
+          git add ./kmserver.tests/kmserver.tests.csproj
           git commit --amend -m "${{ github.event.pull_request.title }}"
           git push --force
           if [[ $VERSION != $CURR_VERSION ]]; then
