@@ -131,11 +131,11 @@ export default class QuizEditor extends React.Component {
       var Question = ({question, answer}) => (
         <Swiper>
               <View style = {{flex: 1, borderWidth: 1, marginRight: 20, marginLeft: 20, marginBottom: 50,backgroundColor: "white", elevation: 20}}>
-                <TextInput multiline={true} placeholder="Enter Question" style = {{padding: 20}}
+                <TextInput multiline={true} placeholder="Enter Question" style = {{padding: 20, fontSize: 22}}
                 onChangeText = {currentQuestion=> this.setState(({currentQuestion:currentQuestion}))}>{question}</TextInput>
               </View>
               <View style = {{flex: 1, borderWidth: 1, paddingHorizontal: 20, marginRight: 20, marginLeft: 20,marginBottom: 50, backgroundColor: "white", elevation: 20}}>
-                <TextInput multiline={true} placeholder="Enter Answer" style = {{padding: 20}}
+                <TextInput multiline={true} placeholder="Enter Answer" style = {{padding: 20, fontSize: 22}}
                 onChangeText = {currentAnswer=> this.setState(({currentAnswer:currentAnswer}))}>{answer}</TextInput>
               </View>
            </Swiper>
@@ -156,7 +156,7 @@ export default class QuizEditor extends React.Component {
       //quizQuestion.push(Question({question: this.state.currentQuestion, answer: this.state.currentAnswer}));
       quizQuestion = Question({question: this.state.currentQuestion, answer: this.state.currentAnswer});
       return(
-        <View style = {{flex: 1, backgroundColor: "lightskyblue"}}>
+        <View style = {{flex: 1, backgroundColor: "#FBFBFD"}}>
           <View style = {{flex: 1, borderBottomWidth: 3, paddingVertical: 10, backgroundColor: "white"}}>
           </View>
           <View style = {{flex: 2, paddingHorizontal: 20, marginTop: 20}}>
@@ -167,7 +167,7 @@ export default class QuizEditor extends React.Component {
           </View>
           <View style = {{flex: 5, alignItems: 'center', flexDirection: "row", paddingHorizontal: 20}}>
             <View style = {{flex: 1, alignItems: 'center'}}>
-              <Ionicons name = "arrow-back-circle" size = {50} color = "green" onPress = {() => this.onPressLeft()}></Ionicons>
+              <Ionicons name = "arrow-back-circle" size = {50} color = "grey" onPress = {() => this.onPressLeft()}></Ionicons>
             </View>
             <View style = {{flex: 4, alignItems: 'center'}}>
               <View style = {{flex: 1, flexDirection: "row"}}>
@@ -180,11 +180,11 @@ export default class QuizEditor extends React.Component {
                 <Text style = {{fontSize: 20}}>{p}..{this.state.index}..{n}</Text>
               </View>
               <View style = {{marginTop: 20, marginBottom: 10}}>
-                <Ionicons name = "checkmark-circle" size = {60} color = "green" style={{marginLeft: 5}} onPress={() => this.pressCreate()}></Ionicons>
+              <AppButton title = "Submit" style={styles.loginContainer} onPress = {this.pressCreate}/>
               </View>
             </View>
             <View style = {{flex: 1, alignItems: 'center'}}>
-              <Ionicons name = "arrow-forward-circle" size = {50} color = "green" onPress = {() => this.onPressRight()}></Ionicons>
+              <Ionicons name = "arrow-forward-circle" size = {50} color = "grey" onPress = {() => this.onPressRight()}></Ionicons>
             </View>
           </View>
         </View>
@@ -209,5 +209,13 @@ export default class QuizEditor extends React.Component {
       width: '60%',
       marginBottom: 20,
       elevation: 20
+    },
+    loginContainer: {
+      borderRadius: 100,
+      padding: 15,
+      justifyContent: 'center',
+      backgroundColor: 'white',
+      borderWidth: 1,
+      borderColor: 'green',
     },
   });

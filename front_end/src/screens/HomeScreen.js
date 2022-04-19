@@ -4,22 +4,25 @@ import Swiper from 'react-native-swiper'
 
 import AppButton from "../components/AppButton.js"
 
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome5';
+
 
 export default function HomeScreen ({navigation}){
     return (
     <View style = {{flex: 1, color: 'white'}}>
-      <View style={{flex: 2, paddingVertical: 10}}>
-        <Image source = {require('../assets/home_screen_logo.png')}
-          style = {{width: 425, height: 155, resizeMode: 'contain'}}/>
+      <View style={{flex: 2, paddingVertical: 20, fontFamily: 'sans-serif', justifyContent: "center", alignItems: "center", backgroundColor: "white"}}>
+        <Text style = {{fontSize: 60, color: "#1B43E9", marginTop: 30}}>KouizMe</Text>
       </View>
       <View style={styles.imageContainer}>
         <Swiper showsButtons={false}>
-          <View style={{justifyContent: 'center'}}>
-            <Image source = {require('../assets/create_account.png')}
-            style = {{width: 408, height: '90%', resizeMode: 'contain'}}/>
+          <View style={{justifyContent: 'center', alignItems: 'center'}}>
+            <FontAwesome name = "apple-alt" size={200} color="grey" style = {{}}></FontAwesome>
+            <Text style = {{fontSize: 25, color: "black", marginTop: 50, paddingHorizontal: 100, textAlign: "center"}}>KouizMe is the #1 quiz app</Text>
           </View>
-          <View style={{justifyContent: 'center'}}>
-            <Text style={{textAlign: 'center', marginTop: 200}}>Banana</Text>
+          <View style={{justifyContent: 'center', alignItems: 'center'}}>
+            <MaterialCommunityIcons name = "account" size={250} color="grey" style = {{}}></MaterialCommunityIcons>
+            <Text style = {{fontSize: 25, color: "black", paddingHorizontal: 100, textAlign: "center"}}>Create an account to begin using KouizMe!</Text>
           </View>
           <View style={{justifyContent: 'center'}}>
             <Text style={{textAlign: 'center', marginTop: 200}}>Turtle</Text>
@@ -39,11 +42,13 @@ export default function HomeScreen ({navigation}){
     imageContainer: {
       flex: 7,
       justifyContent: 'center',
+      backgroundColor: 'white'
     },
     signinContainer: {
       flex: 2,
       justifyContent: 'flex-end',
       justifyContent: 'space-around',
+      backgroundColor: '#FBFBFD',
       paddingVertical: 40,
       paddingHorizontal: 50,
     },

@@ -1,9 +1,11 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem} from '@react-navigation/drawer';
 
-import FeatherIcon from 'react-native-vector-icons/Feather';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Feather from 'react-native-vector-icons/Feather';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import Home from "../components/Home"
 import Profile from "../components/Profile"
@@ -15,54 +17,92 @@ const Drawer = createDrawerNavigator();
 export default class UserHomeScreen extends React.Component {
 
   render(){
-    let DrawerScreens = []
-    for (var i = 0; i < UserMenu.length; i++)
-    {
-      DrawerScreens.push(<Drawer.Screen 
-        name={UserMenu[i].name} 
-        drawerIcon={<FeatherIcon name = {UserMenu[i].iconName}> </FeatherIcon>}
-        component={UserMenu[i].component}/>)
-    }
     return(
       <Drawer.Navigator 
       drawerType="front"
       initialRouteName="Home"
       screenOptions={{
         drawerStyle: {
-        backgroundColor: 'orange',
+        backgroundColor: 'white',
         width: 240,
         },
       }}
       drawerContent={props => {
         return (
             <DrawerContentScrollView {...props}>
-              <DrawerItemList {...props} />
-              <DrawerItem label="Logout" onPress={() => props.navigation.navigate('MainHome')} />
+              <View style = {{flex: 1}}>
+                <View style = {{backgroundColor: '#FBFBFD'}}>
+                  <View style = {{flex: 1, borderBottomWidth: 3, marginRight: 20, marginLeft: 20, marginBottom: 20, paddingVertical: 20, flexDirection: 'row', backgroundColor: '#FBFBFD'}}>
+                    <Feather
+                      name="user"
+                      size={40}
+                    />
+                    <Text style = {{fontSize: 20, marginLeft: 10, marginTop: 10}}>Username</Text>
+                  </View>
+                </View>
+                <View>
+                  <DrawerItemList {...props} />
+                </View>
+                <View style = {{flex: 1, justifyContent: 'flex-end'}}>
+                  <DrawerItem label='Logout' 
+                  onPress={() => props.navigation.navigate('MainHome')} 
+                  />
+                </View>
+              </View>
             </DrawerContentScrollView>
+            
         )
       }}
       >
-        {DrawerScreens}
+      <Drawer.Screen name="Home" component={Home} 
+        options={{
+          title: 'Home',
+          fontSize: 40, 
+          drawerIcon: () => (
+           <MaterialCommunityIcons
+              name="home"
+              size={40}
+           />
+          ),
+       }}
+      />
+      <Drawer.Screen name="Profile" component={Profile} 
+        options={{
+          title: 'Profile',
+          fontSize: 40, 
+          drawerIcon: () => (
+           <MaterialCommunityIcons
+              name="card-account-details-outline"
+              size={40}
+           />
+          ),
+       }}
+      />
+      <Drawer.Screen name="Create" component={Create} 
+        options={{
+          title: 'Create',
+          fontSize: 40, 
+          drawerIcon: () => (
+           <MaterialCommunityIcons
+              name="plus-circle"
+              size={40}
+           />
+          ),
+       }}
+      />
+      <Drawer.Screen name="Quizzes" component={Quizzes} 
+        options={{
+          title: 'Quizzes',
+          fontSize: 40, 
+          drawerIcon: () => (
+           <MaterialCommunityIcons
+              name="folder-text-outline"
+              size={40}
+           />
+          ),
+       }}
+      />
       </Drawer.Navigator>
     );
   }
 }
-
-var UserMenu = [
-  {
-    name:'Home',
-    component: Home
-  },
-  {
-    name:'Profile',
-    component: Profile
-  },
-  {
-    name:'Create',
-    component: Create
-  },
-  {
-    name:'Quizzes',
-    component: Quizzes
-  }
-]

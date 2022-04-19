@@ -69,7 +69,7 @@ export default class Quizzes extends React.Component {
   
       return( 
         <SafeAreaView>
-          <ScrollView style = {{backgroundColor: 'lightskyblue'}}>
+          <ScrollView style = {{backgroundColor: '#FBFBFD'}}>
             <View style={{flex: 1, alignItems: 'center', marginTop: 20}}>
               <Modal animationType="slide" transparent={true} visible={this.state.deleteQuiz}>
                 <View style={styles.centeredView}>
@@ -102,11 +102,13 @@ export default class Quizzes extends React.Component {
 
   const styles = StyleSheet.create({
     loginContainer: {
-      backgroundColor: 'orange',
       borderRadius: 200,
       height: 40,
       width: 100,
-      justifyContent: 'center'
+      justifyContent: 'center',
+      backgroundColor: 'white',
+      borderWidth: 1,
+      borderColor: 'blue',
     },
     centeredView: {
       flex: 1,
