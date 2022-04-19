@@ -76,7 +76,7 @@ export default class RegisterScreen extends React.Component {
 
 			this.setState({loading:false});
 
-			let response = KMServerClient.registerUser(new UserRegisterModel(
+			KMServerClient.registerUser(new UserRegisterModel(
 				this.state.username,
 				this.state.firstname,
 				this.state.lastname,
