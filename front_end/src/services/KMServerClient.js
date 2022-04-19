@@ -7,6 +7,7 @@ import {UserLoginModel, UserRegisterModel, QuizModel, QuestionModel} from "./Mod
 const authKeyName = "set-cookie";
 const schema = "http";
 const hostAddress = "192.168.0.81";
+const hostPort = "5000"
 const authFailedRedirect = "LoginScreen";
 
 export class ClientReturnObj {
@@ -22,7 +23,7 @@ export class ClientReturnObj {
 export default class KMServerClient {
     // construct the full url for the request
     static buildFullUrl(endpoint) {
-        return schema + "://" + hostAddress + "/" + endpoint;
+        return schema + "://" + hostAddress + ":" + hostPort + "/" + endpoint;
     }
 
     static async checkUserSignedIn() {
@@ -44,7 +45,7 @@ export default class KMServerClient {
     }
 
     // makes a generic request based on the paramers and returns the request payload
-    static request(endpoint, method, payload, noauth = false) {
+    static async request(endpoint, method, payload, noauth = false) {
         let headers = {
             'accept' : 'text/plain',
             'Content-type': 'application/json'
@@ -60,7 +61,9 @@ export default class KMServerClient {
             }
         }
 
-        let response = fetch(
+        console.log(payload);
+
+        let response = await fetch(
             this.buildFullUrl(endpoint),
             {
                 method: method,
@@ -89,10 +92,10 @@ export default class KMServerClient {
         return response;
     }
 
-    static registerUser(userRegisterModel) {
+    static async registerUser(userRegisterModel) {
         let response;
         try {
-            response = this.request("api/auth", "POST", userRegisterModel, true);
+            response = await this.request("api/auth", "POST", userRegisterModel, true);
             return new ClientReturnObj(response, null);
         } catch(err) {
             console.error(err);
@@ -100,21 +103,10 @@ export default class KMServerClient {
         }
     }
 
-    static loginUser(userLoginModel) {
+    static async loginUser(userLoginModel) {
         let response;
         try {
-            response = this.request("api/auth", "PUT", userLoginModel, true);
-            return new ClientReturnObj(response, null);
-        } catch(err) {
-            conlose.error(err);
-            return new ClientReturnObj(null, err);
-        }
-    }
-
-    static logoutUser() {
-        let response;
-        try {
-            response = this.request("api/auth", "DELETE", null);
+            response = await this.request("api/auth", "PUT", userLoginModel, true);
             return new ClientReturnObj(response, null);
         } catch(err) {
             console.error(err);
@@ -122,10 +114,10 @@ export default class KMServerClient {
         }
     }
 
-    static getQuizzes() {
+    static async logoutUser() {
         let response;
         try {
-            response = this.request("api/quizzes", "GET", null);
+            response = await this.request("api/auth", "DELETE", null);
             return new ClientReturnObj(response, null);
         } catch(err) {
             console.error(err);
@@ -133,10 +125,21 @@ export default class KMServerClient {
         }
     }
 
-    static getQuiz(id) {
+    static async getQuizzes() {
         let response;
         try {
-            response = this.request("api/quizzes" + new URLSearchParams({
+            response = await this.request("api/quizzes", "GET", null);
+            return new ClientReturnObj(response, null);
+        } catch(err) {
+            console.error(err);
+            return new ClientReturnObj(null, err);
+        }
+    }
+
+    static async getQuiz(id) {
+        let response;
+        try {
+            response = await this.request("api/quizzes" + new URLSearchParams({
                 id: id
             }), "GET", null);
             return new ClientReturnObj(response, null);
@@ -146,10 +149,10 @@ export default class KMServerClient {
         }
     }
 
-    static createQuiz(quizModel) {
+    static async createQuiz(quizModel) {
         let response;
         try {
-            response = this.request("api/quizzes", "POST", quizModel);
+            response = await this.request("api/quizzes", "POST", quizModel);
             return new ClientReturnObj(response, null);
         } catch(err) {
             console.error(err);
@@ -157,10 +160,10 @@ export default class KMServerClient {
         }
     }
 
-    static updateQuiz(quizModel) {
+    static async updateQuiz(quizModel) {
         let response;
         try {
-            response = this.request("api/quizzes", "PUT", quizModel);
+            response = await this.request("api/quizzes", "PUT", quizModel);
             return new ClientReturnObj(response, null);
         } catch(err) {
             console.error(err);
@@ -168,10 +171,10 @@ export default class KMServerClient {
         }
     }
 
-    static deleteQuiz(id) {
+    static async deleteQuiz(id) {
         let response;
         try {
-            response = this.request("api/quizzes" + new URLSearchParams({
+            response = await this.request("api/quizzes" + new URLSearchParams({
                 id: id
             }), "DELETE", null);
             return new ClientReturnObj(response, null);
@@ -181,10 +184,10 @@ export default class KMServerClient {
         }
     }
 
-    static deleteQuiz(quizModel) {
+    static async deleteQuiz(quizModel) {
         let response;
         try {
-            response = this.request("api/quizzes", "DELETE", quizModel);
+            response = await this.request("api/quizzes", "DELETE", quizModel);
             return new ClientReturnObj(response, null);
         } catch(err) {
             console.error(err);
