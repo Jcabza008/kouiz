@@ -37,7 +37,7 @@ export default class UserHomeScreen extends React.Component {
                       name="user"
                       size={40}
                     />
-                    <Text style = {{fontSize: 20, marginLeft: 10, marginTop: 10}}>Username</Text>
+                    <Text style = {{fontSize: 20, marginLeft: 10, marginTop: 10}}>StevenHu9</Text>
                   </View>
                 </View>
                 <View>
