@@ -5,8 +5,8 @@ using kmserver.Services;
 
 var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 
-try 
-{ 
+try
+{
     var builder = WebApplication.CreateBuilder(args);
 
     // Add identity
