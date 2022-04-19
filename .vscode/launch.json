@@ -9,7 +9,6 @@
             "request": "attach",
             "type": "reactnative",
             "cwd": "${workspaceFolder}",
-            "address": "localhost",
             "port": 19000,
         }
     ]

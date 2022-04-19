@@ -42,15 +42,16 @@ export default class LoginScreen extends React.Component {
 
 	pressLogin = async () => {
 		if(this.state.opacityValue == 1) {
-			let response = KMServerClient.loginUser(UserLoginModel = {
-				username: this.state.UsernameInputValue,
-				password: this.state.PasswordInputValue
-			});
-			if(response.error != null) {
-				console.error(error);
-			} else {
-				this.props.navigation.navigate('UserHome');
-			}
+			KMServerClient.loginUser(new UserLoginModel(
+				this.state.UsernameInputValue,
+				this.state.PasswordInputValue
+			)).then(response => {
+				if(response.error != null) {
+					console.error(error);
+				} else {
+					this.props.navigation.navigate('UserHome');
+				}
+			})
 		}
 	}
 
