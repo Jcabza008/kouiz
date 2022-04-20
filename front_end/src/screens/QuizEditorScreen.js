@@ -10,10 +10,8 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import AppButton from "../components/AppButton"
 
-export default class QuizEditor extends React.Component 
-{
-    constructor(props)
-    {
+export default class QuizEditor extends React.Component {
+    constructor(props) {
         super();
         this.state = 
         {
@@ -26,15 +24,13 @@ export default class QuizEditor extends React.Component
         }
     }
 
-    addQuestion = () =>
-    {
+    addQuestion = () => {
         this.state.questions.splice(this.state.index, 0, '');
         this.state.answers.splice(this.state.index, 0, '');
         this.setState({index: this.state.index + 1});
     }
 
-    deleteQuestion = () =>
-    {
+    deleteQuestion = () => {
         if (this.state.index > 1)
         {
             this.state.questions.splice(this.state.index - 1,1);
@@ -43,46 +39,39 @@ export default class QuizEditor extends React.Component
         }
     }
 
-    onPressLeft = () =>
-    {
+    onPressLeft = () => {
         if (this.state.index > 1)
         {
             this.setState({index: this.state.index - 1});
         }
     }
 
-    onPressRight = () =>
-    {
+    onPressRight = () => {
         if (this.state.index < this.state.questions.length)
         {
             this.setState({index: this.state.index + 1});
         }
     }
 
-    onChangeQuestion = (question) =>
-    {
+    onChangeQuestion = (question) => {
         this.setState({currentQuestion: question});
         this.state.questions[this.state.index-1] = question;
     }
 
-    onChangeAnswer = (answer) =>
-    {
+    onChangeAnswer = (answer) => {
         this.setState({currentAnswer: answer});
         this.state.answers[this.state.index-1] = answer;
     }
 
-    onPressEditIcon = () =>
-    {
+    onPressEditIcon = () => {
       this.setState({editName: false})
     }
   
-    onPressFinishEdit = () =>
-    {
+    onPressFinishEdit = () => {
       this.setState({editName: true})
     }
 
-    pressCreate = () => 
-    {
+    pressCreate = () =>  {
         let questions = []
         for (let i = 0; i < this.state.questions.length; i++)
         {
@@ -120,8 +109,7 @@ export default class QuizEditor extends React.Component
         }
     }
 
-    render()
-    {
+    render() {
         let p;
         let n;
 
@@ -147,20 +135,34 @@ export default class QuizEditor extends React.Component
 
         let quizNameStatus;
 
-        if (this.state.editName == true)
-        {
+        if (this.state.editName == true) {
             quizNameStatus=
                 <View style = {{flexDirection: "row", borderWidth: 1, borderColor: "black", backgroundColor: "white"}}>
-                    <Text style = {{flex: 8, fontSize: 30, marginLeft: 10}}>{this.state.quizName}</Text>
-                <FeatherIcon onPress={this.onPressEditIcon} name = "edit" size = {32} color = "red" style = {{flex: 1, padding: 5}}></FeatherIcon>
-            </View>
+                    <Text 
+                        style = {{flex: 8, fontSize: 30, marginLeft: 10}}>{this.state.quizName}
+                    </Text>
+                    <FeatherIcon 
+                        onPress={this.onPressEditIcon} 
+                        name = "edit" size = {32} color = "red" 
+                        style = {{flex: 1, padding: 5}}>
+                    </FeatherIcon>
+                </View>
         }
-        if (this.state.editName == false)
-        {
+
+        if (this.state.editName == false) {
             quizNameStatus=
             <View style = {{flexDirection: "row", borderWidth: 1, borderColor: "black", backgroundColor: "white"}}>
-                <TextInput onChangeText={quizName => this.setState({quizName: quizName})} style = {{flex: 8, fontSize: 30, marginLeft: 10}}>{this.state.quizName}</TextInput>
-                <Ionicons onPress={this.onPressFinishEdit} name = "checkmark-circle" size = {32} color = "green" style = {{flex: 1, padding: 5}}></Ionicons>
+                <TextInput 
+                    onChangeText={quizName => this.setState({quizName: quizName})} 
+                    style = {{flex: 8, fontSize: 30, marginLeft: 10}}>
+                    {this.state.quizName}
+                </TextInput>
+                <Ionicons 
+                    onPress={this.onPressFinishEdit} 
+                    name = "checkmark-circle" 
+                    size = {32} color = "green" 
+                    style = {{flex: 1, padding: 5}}>
+                 </Ionicons>
             </View>
         }
 
@@ -169,12 +171,23 @@ export default class QuizEditor extends React.Component
         var Question = ({question, answer}) => (
             <ScrollView horizontal = {true}>
                 <View style = {{flex: 2, width: 375, borderWidth: 1, marginRight: 20, marginLeft: 20, marginBottom: 50,backgroundColor: "white", elevation: 20}}>
-                    <TextInput multiline={true} placeholder="Enter Question" style = {{padding: 20, fontSize: 22}}
-                    onChangeText = {question => this.onChangeQuestion(question)}>{question}</TextInput>
+                    <TextInput 
+                        multiline={true} 
+                        placeholder="Enter Question" 
+                        style = {{padding: 20, fontSize: 22}}
+                        onChangeText = {question => this.onChangeQuestion(question)}>
+                        {question}
+                    </TextInput>
                 </View>
+
                 <View style = {{flex: 2, width: 375, borderWidth: 1, paddingHorizontal: 20, marginRight: 20, marginLeft: 20,marginBottom: 50, backgroundColor: "white", elevation: 20}}>
-                    <TextInput multiline={true} placeholder="Enter Answer" style = {{padding: 20, fontSize: 22}}
-                    onChangeText = {answer => this.onChangeAnswer(answer)}>{answer}</TextInput>
+                    <TextInput 
+                        multiline={true} 
+                        placeholder="Enter Answer" 
+                        style = {{padding: 20, fontSize: 22}}
+                        onChangeText = {answer => this.onChangeAnswer(answer)}>
+                        {answer}
+                    </TextInput>
                 </View>
             </ScrollView>
         );
@@ -187,35 +200,56 @@ export default class QuizEditor extends React.Component
                 <View style = {{flex: 2, paddingHorizontal: 20, marginTop: 20}}>
                     {quizNameStatus}
                 </View>
+
                 <View style = {{flex: 10, flexDirection: "row"}}>
                     {quizQuestion}
                 </View>
+
                 <View style = {{flex: 5, alignItems: 'center', flexDirection: "row", paddingHorizontal: 20}}>
                     <View style = {{flex: 1, alignItems: 'center'}}>
-                        <Ionicons name = "arrow-back-circle" size = {50} color = "grey" onPress = {() => this.onPressLeft()}></Ionicons>
+                        <Ionicons 
+                            name = "arrow-back-circle" 
+                            size = {50} color = "grey" 
+                            onPress = {() => this.onPressLeft()}>
+                        </Ionicons>
                     </View>
+
                     <View style = {{flex: 4, alignItems: 'center'}}>
                         <View style = {{flex: 1, flexDirection: "row"}}>
-                                <AntDesign name = "minuscircle" size = {50} color = "red" style = {{padding: 20}} onPress={() => this.deleteQuestion()} >
+                                <AntDesign 
+                                    name = "minuscircle" 
+                                    size = {50} color = "red" 
+                                    style = {{padding: 20}} 
+                                    onPress={() => this.deleteQuestion()}>
                                 </AntDesign>
-                                <AntDesign name = "pluscircle" size = {50} color = "green" style = {{padding: 20}} onPress={() => this.addQuestion()}>
+                                <AntDesign 
+                                    name = "pluscircle" 
+                                    size = {50} color = "green" 
+                                    style = {{padding: 20}} 
+                                    onPress={() => this.addQuestion()}>
                                 </AntDesign>
                         </View>
-                    <View>
-                        <Text style = {{fontSize: 20}}>{p}...{this.state.index}...{n}</Text>
+
+                        <View>
+                            <Text style = {{fontSize: 20}}>{p}...{this.state.index}...{n}</Text>
+                        </View>
+                        
+                        <View style = {{marginTop: 20, marginBottom: 10}}>
+                            <AppButton title = "Submit" style={styles.submit_button} onPress = {this.pressCreate}/>
+                        </View>
                     </View>
-                    <View style = {{marginTop: 20, marginBottom: 10}}>
-                        <AppButton title = "Submit" style={styles.submit_button} onPress = {this.pressCreate}/>
+                    <View style = {{flex: 1, alignItems: 'center'}}>
+                        <Ionicons 
+                            name = "arrow-forward-circle" 
+                            size = {50} color = "grey" 
+                            onPress = {() => this.onPressRight()}>
+                        </Ionicons>
                     </View>
-                </View>
-                <View style = {{flex: 1, alignItems: 'center'}}>
-                    <Ionicons name = "arrow-forward-circle" size = {50} color = "grey" onPress = {() => this.onPressRight()}></Ionicons>
                 </View>
             </View>
-        </View>
-      );
+        );
     }
-  }
+}
 
   const styles = StyleSheet.create({
     add_question: {

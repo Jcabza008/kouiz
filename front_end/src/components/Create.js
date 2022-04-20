@@ -1,7 +1,5 @@
 import React from "react";
 import { View, Text, TextInput, StyleSheet, ScrollView} from "react-native";
-import { default as KMServerClient, ClientReturnObj} from '../services/KMServerClient';
-import { QuizModel } from "../services/Models"
 
 import AppButton from "../components/AppButton.js"
 
@@ -45,19 +43,38 @@ export default class Create extends React.Component {
     {
         return(
             <View style = {{flex: 1, justifyContent: "center", backgroundColor: '#FBFBFD'}}>
+
                 <View style = {{flex: 5, justifyContent: "center"}}>
-                    <Text style = {{textAlign: "center", fontSize: 50, color: "#1B43E9", textShadowColor: "grey", textShadowRadius: 1}}>Create a new Quiz!</Text>
+                    <Text style = {{textAlign: "center", fontSize: 50, color: "#1B43E9", textShadowColor: "grey", textShadowRadius: 1}}>
+                        Create a new Quiz!
+                    </Text>
                 </View>
+
                 <View style = {{flex: 1, justifyContent: "center", paddingHorizontal: 50}}>
-                    <TextInput placeholder="Quiz Name" onChangeText={NameInputValue=> this.onEnterNameText(NameInputValue)} style={styles.quiz_input}>{this.state.NameInputValue}</TextInput>
+                    <TextInput 
+                      placeholder="Quiz Name" 
+                      onChangeText={NameInputValue=> this.onEnterNameText(NameInputValue)} 
+                      style={styles.quiz_input}>{this.state.NameInputValue}
+                    </TextInput>
                 </View>
+
                 <View style = {{flex: 2, justifyContent: "center", paddingHorizontal: 50, opacity: this.state.opacityValue}}>
-                    <AppButton AppButton title="Create" opacity={this.state.buttonOpacity} style={styles.create_button} onPress={() => this.pressCreate()}></AppButton>
+                    <AppButton 
+                      AppButton title="Create" 
+                      opacity={this.state.buttonOpacity} 
+                      style={styles.create_button} 
+                      onPress={() => this.pressCreate()}>
+                    </AppButton>
                 </View>
+
                 <View style = {{flex: 3, justifyContent: "center", paddingHorizontal: 50}}>
-                    <AppButton AppButton title="View Quizzes" style={styles.create_button} onPress={() => this.props.navigation.navigate('Quizzes')}></AppButton>
+                    <AppButton 
+                      AppButton title="View Quizzes" 
+                      style={styles.create_button} 
+                      onPress={() => this.props.navigation.navigate('Quizzes')}>
+                    </AppButton>
                 </View>
-                <View style = {{flex: 4}}></View>
+                
             </View>
         );
     }
