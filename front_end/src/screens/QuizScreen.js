@@ -9,10 +9,11 @@ export default class QuizScreen extends React.Component
     constructor(props) {
         super(props)
         this.state = {
-            currentQuestion: 'Question',
             currentAnswer: '',
-            questions: [],
-            answers: [],
+            questions: props.route.params.questions,
+            answers: props.route.params.answers,
+            index: this.route.params.index,
+            currentQuestion: questions[index]
         }
       }
 
@@ -22,9 +23,16 @@ export default class QuizScreen extends React.Component
 
     checkAnswer = () =>
     {
-      this.props.navigation.navigate('Answer');
+      if (this.state.currentAnswer == this.state.answers[this.state.index])
+      {
+        this.setState({index: Math.floor(math.random()*questions.length-1)})
+        
+      }
+      else
+      {
+        this.props.navigation.navigate('Answer');
+      }
     }
-
 
     render()
     {
