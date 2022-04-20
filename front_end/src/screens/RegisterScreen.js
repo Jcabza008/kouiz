@@ -10,7 +10,7 @@ export default class RegisterScreen extends React.Component {
 		super(props);
 		this.state = {
 			password: "",
-			errorMessage: "",
+			passwordError: "",
 			username: "",
 			firstname: "",
 			lastname: "",
@@ -28,7 +28,7 @@ export default class RegisterScreen extends React.Component {
 		this.setState({loading:true})
 		let errorFlag = false;
 
-		this.setState({errorMessage:""});
+		this.setState({passwordError:""});
 		this.setState({usernameError:""});
 		this.setState({firstnameError:""});
 		this.setState({lastnameError:""});
@@ -51,11 +51,11 @@ export default class RegisterScreen extends React.Component {
 
 		if(this.state.password.length == 0){
 			errorFlag = true;
-			this.setState({errorMessage: "Password has no input"});
+			this.setState({passwordError: "Password has no input"});
 		}
 		else if(this.state.password.length < 8){
 			errorFlag = true;
-			this.setState({errorMessage: "Password should be at least 8 characters"});
+			this.setState({passwordError: "Password should be at least 8 characters"});
 		}
 
 		if(this.state.confirmPassword.length == 0)
@@ -84,7 +84,8 @@ export default class RegisterScreen extends React.Component {
 			))
 			.then(response => {
 				if(response.error != null) {
-				console.error(response.error);
+        this.setState({usernameError:"Username has been taken or password is not valid."});
+        this.setState({passwordError:"Password requires an uppercase character, lowercase character, number, and special character(!@#$)."});
 				} else {
 					KMServerClient.loginUser(new UserLoginModel(
 						this.state.username,
@@ -92,6 +93,7 @@ export default class RegisterScreen extends React.Component {
 					)).then(response => {
 						if(response.error != null) {
 							console.error(response.error);
+              console.log("zz");
 						} else {
 							this.props.navigation.navigate('UserHome');
 						}
@@ -109,11 +111,11 @@ export default class RegisterScreen extends React.Component {
             <TextInput placeholder="Username" style={styles.loginInput} onChangeText={username => this.setState({username})}></TextInput>
               {this.state.usernameError.length > 0 && <Text style = {styles.textDanger}>{this.state.usernameError}</Text>}
             <TextInput placeholder="First Name" style={styles.loginInput} onChangeText={firstname => this.setState({firstname})}></TextInput>
-              {this.state.usernameError.length > 0 && <Text style = {styles.textDanger}>{this.state.usernameError}</Text>}
+              {this.state.firstnameError.length > 0 && <Text style = {styles.textDanger}>{this.state.firstnameError}</Text>}
             <TextInput placeholder="Last Name" style={styles.loginInput} onChangeText={lastname => this.setState({lastname})}></TextInput>
-              {this.state.usernameError.length > 0 && <Text style = {styles.textDanger}>{this.state.usernameError}</Text>}
+              {this.state.lastnameError.length > 0 && <Text style = {styles.textDanger}>{this.state.lastnameError}</Text>}
             <TextInput placeholder="Password" secureTextEntry={true} style={styles.loginInput} onChangeText={password=> this.setState({password})}></TextInput>
-              {this.state.errorMessage.length > 0 && <Text style = {styles.textDanger}>{this.state.errorMessage}</Text>}
+              {this.state.passwordError.length > 0 && <Text style = {styles.textDanger}>{this.state.passwordError}</Text>}
             <TextInput placeholder="Confirm Password" secureTextEntry={true} style={styles.loginInput} onChangeText={confirmPassword => this.setState({confirmPassword})}></TextInput>
               {this.state.confirmError.length > 0 && <Text style = {styles.textDanger}>{this.state.confirmError}</Text>}
             <View style = {{paddingVertical: 20}}>
