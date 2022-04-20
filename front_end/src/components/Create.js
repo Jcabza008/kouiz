@@ -1,5 +1,7 @@
 import React from "react";
 import { View, Text, TextInput, StyleSheet, ScrollView} from "react-native";
+import { default as KMServerClient, ClientReturnObj} from '../services/KMServerClient';
+import { QuizModel } from "../services/Models"
 
 import AppButton from "../components/AppButton.js"
 
@@ -30,8 +32,8 @@ export default class Create extends React.Component {
     pressCreate = () => {
       if (this.state.opacityValue == 1)
       {
+        this.props.navigation.navigate('QuizEditor', {quizName: this.state.NameInputValue, create: true});
         this.setState({opacityValue: 0.6, createQuiz: true, NameInputValue: ''});
-        this.props.navigation.navigate('QuizEditor');
       }
     }
   

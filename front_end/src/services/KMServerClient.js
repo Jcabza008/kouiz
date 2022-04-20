@@ -6,7 +6,7 @@ import {UserLoginModel, UserRegisterModel, QuizModel, QuestionModel} from "./Mod
 // General constants
 const authKeyName = "set-cookie";
 const schema = "http";
-const hostAddress = "192.168.1.2";
+const hostAddress = "10.20.93.198:1900";
 const hostPort = "5000"
 const authFailedRedirect = "LoginScreen";
 

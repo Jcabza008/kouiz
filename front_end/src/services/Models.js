@@ -30,7 +30,7 @@ export class UserRegisterModel {
 export class QuizModel {
     constructor(id, ownerID, name, questions) {
         this.id = id;
-        this.ownerId = ownerId;
+        this.ownerId = ownerID;
         this.name = name;
         this.questions = questions;
     }

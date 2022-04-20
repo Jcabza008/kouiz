@@ -1,6 +1,11 @@
 import React from "react";
-import { View, Text, TextInput, StyleSheet} from "react-native";
-import Swiper from 'react-native-swiper'
+import { View, Text, TextInput, StyleSheet, ScrollView} from "react-native";
+
+import { default as KMServerClient, ClientReturnObj} from '../services/KMServerClient';
+import { QuizModel, QuestionModel } from "../services/Models"
+
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
 
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -9,10 +14,10 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import AppButton from "../components/AppButton"
 
 export default class QuizEditor extends React.Component {
-    constructor(){
+    constructor(props){
       super();
       this.state = {
-        quizName: 'Quiz Name',
+        quizName: props.route.params.quizName,
         editName: true,
         currentQuestion: '',
         currentAnswer: '',
@@ -21,23 +26,42 @@ export default class QuizEditor extends React.Component {
         prev: 0,
         index: 1,
         next: 0,
-        totalLength: 1
+        totalLength: 0,
+        createQuiz: props.route.params.create
       }
     }
   
     addQuestion = () =>
   {
-    this.setState({prev: this.state.index});
-    this.setState({index: this.state.index + 1});
-    if (this.state.next != 0)
+    console.log(this.state.index)
+    console.log(this.state.currentQuestion)
+    if (this.state.questions[this.state.index-1] == null)
     {
-      this.setState({next: this.state.next + 1});
+      this.setState({prev: this.state.index});
+      this.setState({index: this.state.index + 1});
+      if (this.state.next != 0)
+      {
+        this.setState({next: this.state.next + 1});
+      }
+      this.state.questions.splice(this.state.index - 1, 0, this.state.currentQuestion);
+      this.state.answers.splice(this.state.index - 1, 0, this.state.currentAnswer);
+      this.setState({totalLength: this.state.totalLength + 1});
+      this.setState({currentQuestion: ''});
+      this.setState({currentAnswer: ''});
     }
-    this.setState({questions: [...this.state.questions, this.state.currentQuestion]});
-    this.setState({answers: [...this.state.answers, this.state.currentAnswer]});
-    this.setState({totalLength: this.state.totalLength + 1});
-    this.setState({currentQuestion: ''});
-    this.setState({currentAnswer: ''});
+    else
+    {
+      this.setState({prev: this.state.index});
+      this.setState({index: this.state.index + 1});
+            if (this.state.next != 0)
+      {
+        this.setState({next: this.state.next + 1});
+      }
+      this.state.questions[this.state.index-1] = this.state.currentQuestion;
+      this.state.answers[this.state.index-1] = this.state.currentAnswer;
+      this.setState({currentQuestion: ''});
+      this.setState({currentAnswer: ''});
+    }
     console.log(this.state.questions)
   }
 
@@ -82,32 +106,83 @@ export default class QuizEditor extends React.Component {
     onPressLeft = () =>
     {
       if(this.state.prev > 0)
-      {
+       {
         this.setState({index: this.state.index - 1});
         this.setState({prev: this.state.prev - 1});
-        this.setState({next: this.state.index});
+        if (this.state.index <= this.state.totalLength)
+        {
+          this.setState({next: this.state.index});
+        }
         this.setState({currentQuestion: this.state.questions[this.state.index-2]});
         this.setState({currentAnswer: this.state.answers[this.state.index-2]});
-      }
-      console.log(this.state.questions)
+       }
+      // if(this.state.prev > 0)
+      // {
+      //   this.setState({index: this.state.index - 1});
+      //   this.setState({prev: this.state.prev - 1});
+      //   this.setState({next: this.state.index});
+      //   this.setState({currentQuestion: this.state.questions[this.state.index-2]});
+      //   this.setState({currentAnswer: this.state.answers[this.state.index-2]});
+      //   if (this.state.index+1 > this.state.totalLength)
+      //   {
+      //     console.log(this.state.currentQuestion)
+      //     this.state.questions.splice(this.state.index, 0, this.state.currentQuestion);
+      //     this.setState({totalLength: this.state.totalLength + 1});
+      //   }
+      // }
+      // console.log(this.state.questions)
     }
 
     onPressRight = () =>
     {
-      if(this.state.next > 0 && this.state.next < this.state.totalLength)
+      if(this.state.next > 0)
       {
         this.setState({index: this.state.index + 1});
         this.setState({prev: this.state.prev + 1});
-        this.setState({next: this.state.next + 1});
+        if (this.state.next+1 < this.state.totalLength)
+        {
+          this.setState({next: this.state.next + 1});
+        }
+        else
+        {
+          this.setState({next: 0});
+        }
+        this.setState({currentQuestion: this.state.questions[this.state.index]});
+        this.setState({currentAnswer: this.state.answers[this.state.index]});
       }
     }
 
     pressCreate = () => {
-      this.props.navigation.navigate('Quizzes')
+      console.log(this.state.createQuiz)
+      if (this.state.createQuiz)
+      {
+        let questions = []
+        for (let i = 0; i < this.state.totalLength; i++)
+        {
+          questions.push(new QuestionModel("", this.state.questions[i], this.state.answers[i], [], i))
+        }
+        KMServerClient.createQuiz(new QuizModel(
+          "",
+          "",
+          this.state.quizName,
+          questions
+        ))
+        .then(response => {
+          if(response.error != null) {
+          console.error(response.error);
+          } else {
+            this.props.navigation.navigate('Quizzes');
+          }
+        });
+      }
+      else
+      {
+      }
     }
 
     render()
     {
+
       let quizNameStatus;
       if (this.state.editName == true)
       {
@@ -129,16 +204,16 @@ export default class QuizEditor extends React.Component {
       let quizQuestion = ''
 
       var Question = ({question, answer}) => (
-        <Swiper>
-              <View style = {{flex: 1, borderWidth: 1, marginRight: 20, marginLeft: 20, marginBottom: 50,backgroundColor: "white", elevation: 20}}>
+        <ScrollView horizontal = {true}>
+              <View style = {{flex: 2, width: 375, borderWidth: 1, marginRight: 20, marginLeft: 20, marginBottom: 50,backgroundColor: "white", elevation: 20}}>
                 <TextInput multiline={true} placeholder="Enter Question" style = {{padding: 20, fontSize: 22}}
                 onChangeText = {currentQuestion=> this.setState(({currentQuestion:currentQuestion}))}>{question}</TextInput>
               </View>
-              <View style = {{flex: 1, borderWidth: 1, paddingHorizontal: 20, marginRight: 20, marginLeft: 20,marginBottom: 50, backgroundColor: "white", elevation: 20}}>
+              <View style = {{flex: 2, width: 375, borderWidth: 1, paddingHorizontal: 20, marginRight: 20, marginLeft: 20,marginBottom: 50, backgroundColor: "white", elevation: 20}}>
                 <TextInput multiline={true} placeholder="Enter Answer" style = {{padding: 20, fontSize: 22}}
                 onChangeText = {currentAnswer=> this.setState(({currentAnswer:currentAnswer}))}>{answer}</TextInput>
               </View>
-           </Swiper>
+        </ScrollView>
       );
 
       let p = this.state.prev;
@@ -180,7 +255,7 @@ export default class QuizEditor extends React.Component {
                 <Text style = {{fontSize: 20}}>{p}..{this.state.index}..{n}</Text>
               </View>
               <View style = {{marginTop: 20, marginBottom: 10}}>
-              <AppButton title = "Submit" style={styles.loginContainer} onPress = {this.pressCreate}/>
+                <AppButton title = "Submit" style={styles.loginContainer} onPress = {this.pressCreate}/>
               </View>
             </View>
             <View style = {{flex: 1, alignItems: 'center'}}>
