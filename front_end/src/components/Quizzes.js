@@ -2,6 +2,8 @@ import React from "react";
 import { View, Text, ScrollView, SafeAreaView, Modal, StyleSheet, Pressable} from "react-native";
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { default as KMServerClient, ClientReturnObj} from '../services/KMServerClient';
+import { QuizModel } from "../services/Models"
 
 import AppButton from "../components/AppButton.js"
 
@@ -10,7 +12,7 @@ export default class Quizzes extends React.Component {
     constructor(props) {
       super(props)
       this.state = {
-        quizzes: ["Quiz 1", "Quiz 2", "Quiz 3", "Quiz 4", "Quiz 5",],
+        quizzes: [],
         deleteQuiz: false
       }
     }
@@ -40,7 +42,18 @@ export default class Quizzes extends React.Component {
     {
       this.props.navigation.navigate('Quiz')
     }
-  
+
+    componentDidMount()
+    {
+      KMServerClient.getQuizzes()
+      .then(response => {
+        if(response.error != null) {
+        console.error(response.error);
+        } else {
+          this.state.quizzes = response.response
+        }
+      });
+    }
     
     render()
     {
@@ -64,7 +77,7 @@ export default class Quizzes extends React.Component {
   
       for (var i = 0; i < this.state.quizzes.length; i++)
       {
-        tempQuizzes.push(Quiz({quizName: this.state.quizzes[i]}))
+        tempQuizzes.push(Quiz({quizName: this.state.quizzes[i].name}))
       }
   
       return( 

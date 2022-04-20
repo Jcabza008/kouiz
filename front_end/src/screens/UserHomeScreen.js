@@ -1,10 +1,13 @@
 import React from "react";
 import { View, Text } from "react-native";
 
+import { default as KMServerClient, ClientReturnObj} from '../services/KMServerClient';
+
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem} from '@react-navigation/drawer';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Feather from 'react-native-vector-icons/Feather';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import Home from "../components/Home"
 import Profile from "../components/Profile"
@@ -36,7 +39,7 @@ export default class UserHomeScreen extends React.Component {
                       name="user"
                       size={40}
                     />
-                    <Text style = {{fontSize: 20, marginLeft: 10, marginTop: 10}}>StevenHu9</Text>
+                    <Text style = {{fontSize: 20, marginLeft: 10, marginTop: 10}}>Username</Text>
                   </View>
                 </View>
                 <View>
@@ -44,7 +47,19 @@ export default class UserHomeScreen extends React.Component {
                 </View>
                 <View style = {{flex: 1, justifyContent: 'flex-end'}}>
                   <DrawerItem label='Logout' 
-                  onPress={() => props.navigation.navigate('MainHome')} 
+                  onPress=
+                  { 
+                    () => {
+                      KMServerClient.logoutUser()
+                      .then(response => {
+                        if(response.error != null) {
+                          console.error(response.error);
+                        } else {
+                          this.props.navigation.navigate('MainHome');
+                        }
+                      });
+                    }
+                  }
                   />
                 </View>
               </View>
