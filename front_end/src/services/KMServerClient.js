@@ -6,7 +6,7 @@ import {UserLoginModel, UserRegisterModel, QuizModel, QuestionModel} from "./Mod
 // General constants
 const authKeyName = "set-cookie";
 const schema = "http";
-const hostAddress = "10.20.93.198";
+const hostAddress = "192.168.1.6";
 const hostPort = "5000"
 const authFailedRedirect = "LoginScreen";
 
@@ -67,7 +67,7 @@ export default class KMServerClient {
             this.buildFullUrl(endpoint),
             {
                 method: method,
-                body: JSON.stringify(payload),
+                body: payload == null ? null : JSON.stringify(payload),
                 headers: headers,
             }
         )
@@ -86,7 +86,7 @@ export default class KMServerClient {
                     }
                 }
             }
-            return response.json()
+            return response == null ? null : response.json()
         });
 
         return response;

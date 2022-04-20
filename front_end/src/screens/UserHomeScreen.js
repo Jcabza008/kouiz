@@ -7,7 +7,6 @@ import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerI
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Feather from 'react-native-vector-icons/Feather';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import Home from "../components/Home"
 import Profile from "../components/Profile"
@@ -18,7 +17,7 @@ const Drawer = createDrawerNavigator();
 
 export default class UserHomeScreen extends React.Component {
 
-render(){
+render() {
     return(
         <Drawer.Navigator 
             drawerType="front"
@@ -28,7 +27,9 @@ render(){
             backgroundColor: 'white',
             width: 240,
             },
-        }}drawerContent={props => {
+        }}
+        
+        drawerContent={props => {
         return (
             <DrawerContentScrollView {...props}>
                 <View style = {{flex: 1}}>
@@ -38,20 +39,24 @@ render(){
                             <Text style = {{fontSize: 20, marginLeft: 10, marginTop: 10, color: 'blue'}}>Username</Text>
                         </View>
                     </View>
+
                     <View>
                         <DrawerItemList {...props} />
                     </View>
+
                     <View style = {{paddingTop: 340}}>
                         <DrawerItem
-                            icon={({ focused, color, size }) => <MaterialCommunityIcons color={'black'} size={40} name={focused ? 'logout' : 'logout'} /> }
+                            icon={({ focused, color, size }) => 
+                            <MaterialCommunityIcons color={'black'} size={40} name={focused ? 'logout' : 'logout'} /> }
+
                             label='Logout' 
                             style = {{backgroundColor: '#F1F1F1'}}
                             onPress=
                             { () => 
                                 { 
-                                    KMServerClient.logoutUser().then(response => 
-                                    {
+                                    KMServerClient.logoutUser().then(response => {
                                         if(response.error != null) {
+                                            console.log("hi");
                                             console.error(response.error);
                                         } else {
                                             this.props.navigation.navigate('MainHome');
@@ -65,6 +70,7 @@ render(){
             </DrawerContentScrollView>
         )
         }}
+
         >
         <Drawer.Screen name="Home" component={Home} 
             options=
@@ -79,6 +85,7 @@ render(){
                 ),
             }}
         />
+
         <Drawer.Screen name="Profile" component={Profile} 
             options=
             {{
@@ -92,6 +99,7 @@ render(){
                 ),
             }}
       />
+
       <Drawer.Screen name="Create" component={Create} 
             options=
             {{
@@ -105,6 +113,7 @@ render(){
                 ),
             }}
       />
+
       <Drawer.Screen name="Quizzes" component={Quizzes} 
             options=
             {{
@@ -118,6 +127,7 @@ render(){
                 ),
             }}
       />
+
       </Drawer.Navigator>
     );
   }

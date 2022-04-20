@@ -7,79 +7,75 @@ import { QuizModel } from "../services/Models"
 
 import AppButton from "../components/AppButton.js"
 
-
-
-
 export default class Quizzes extends React.Component {
     constructor(props) {
         super(props)
-        this.state = 
-        {
+        this.state = {
             quizzes: [],
             deleteQuiz: false
         }
     }
   
-    addNewQuiz = (name) => 
-    {
+    addNewQuiz = (name) => {
         this.setState(this.state.quizzes.addQuiz(name));
     }
 
-    onPressDelete = () =>
-    {
+    onPressDelete = () => {
         this.setState({deleteQuiz: true});
     }
 
-    deleteQuiz = () =>
-    {
+    deleteQuiz = () => {
         this.setState({deleteQuiz: false});
     }
 
-    hideDelete = () =>
-    {
+    hideDelete = () => {
         this.setState({deleteQuiz: false});
     }
 
-    onPressEdit = (quizName) =>
-    {
+    onPressEdit = (quizName) => {
         let tempQuiz;
         for (let i = 0; i < this.state.quizzes.length; i++)
         {
             if (quizName == this.state.quizzes[i].name)
                 tempQuiz = this.state.quizzes[i]
         }
+
         let questions = [];
         let answers = [];
+
         for (let i = 0; i < tempQuiz.questions.length; i++)
         {
             questions.push(tempQuiz.questions[i].prompt);
             answers.push(tempQuiz.questions[i].answer);
         }
+
         this.props.navigation.navigate('QuizEditor',
         {quizName: tempQuiz.name, create: false, questions: questions, answers: answers});
     }
 
-    onPressQuiz = () =>
-    {
+    onPressQuiz = () => {
+
         let tempQuiz;
         for (let i = 0; i < this.state.quizzes.length; i++)
         {
             if (quizName == this.state.quizzes[i].name)
                 tempQuiz = this.state.quizzes[i]
         }
+
         let questions = [];
         let answers = [];
+
         for (let i = 0; i < tempQuiz.questions.length; i++)
         {
             questions.push(tempQuiz.questions[i].prompt);
             answers.push(tempQuiz.questions[i].answer);
         }
+
         this.props.navigation.navigate('Quiz',
         {quizName: tempQuiz.name, create: false, questions: questions, answers: answers, index: Math.floor(math.random()*questions.length-1)});
     }
 
-    componentDidMount()
-    {
+    componentDidMount() {
         KMServerClient.getQuizzes()
         .then(response => {
             if(response.error != null) {
@@ -90,23 +86,46 @@ export default class Quizzes extends React.Component {
         });
     }
     
-    render()
-    {
+    render() {
+      
         let tempQuizzes = [];
         var Quiz = ({quizName}) => (
             <View style={{width: 300, height: 300, borderWidth: 2, borderColor: 'black', marginBottom: 20, backgroundColor: 'white', elevation: 20}}>
+
                 <View style = {{flex: 2}}>
-                    <Icon name = "delete" size={30} color="red" style = {{marginTop: 10, marginLeft: 260}} onPress = {this.onPressDelete}></Icon>
-                    <Text style = {{marginTop: 0, marginLeft: 35, marginRight: 35, fontWeight: 'bold', fontSize: 30}}>{quizName}</Text>
+                    <Icon 
+                      name = "delete"
+                      size={30} 
+                      color="red" 
+                      style = {{marginTop: 10, marginLeft: 260}} 
+                      onPress = {this.onPressDelete}>
+                    </Icon>
+                    <Text 
+                      style = {{marginTop: 0, marginLeft: 35, marginRight: 35, fontWeight: 'bold', fontSize: 30}}>
+                      {quizName}
+                    </Text>
                 </View>
+
                 <View style = {{flex: 1, borderTopColor: "black", borderTopWidth: 2, marginLeft: 20, marginRight: 20, flexDirection: "row"}}>
+
                     <View style = {{flex: 1, flexDirection: "row", justifyContent: "center", marginTop: 20}}>
-                        <AppButton title = "Quiz" style={styles.loginContainer}  onPress = {this.onPressQuiz(quizName)}/>
+                        <AppButton 
+                        title = "Quiz" 
+                        style={styles.loginContainer}  
+                        onPress = {this.onPressQuiz(quizName)}>
+                        </AppButton>
                     </View>
+
                     <View style = {{flex: 1, flexDirection: "row", justifyContent: "center", marginTop: 20}}>
-                        <AppButton title = "Edit" style={styles.loginContainer} onPress = {this.onPressEdit(quizName)}/>
+                        <AppButton 
+                        title = "Edit" 
+                        style={styles.loginContainer} 
+                        onPress = {this.onPressEdit(quizName)}>
+                        </AppButton>
                     </View>
+
                 </View>
+
             </View>
         );
         var Empty = () => (
@@ -130,30 +149,38 @@ export default class Quizzes extends React.Component {
       return( 
         <SafeAreaView>
           <ScrollView style = {{backgroundColor: '#FBFBFD'}}>
+
             <View style={{flex: 1, alignItems: 'center', marginTop: 20}}>
               <Modal animationType="slide" transparent={true} visible={this.state.deleteQuiz}>
                 <View style={styles.centeredView}>
                   <View style={styles.modalView}>
+
                     <Text style={styles.modalText}>Are you sure?</Text>
+
                     <View style = {{flexDirection: "row", padding: 20}}>
+
                       <Pressable
                         style={[styles.button, styles.buttonClose]}
                         onPress={() => this.deleteQuiz()}
                       >
                       <Text style={styles.textStyle}>Yes</Text>
                       </Pressable>
+
                       <Pressable
                         style={[styles.button, styles.buttonClose]}
                         onPress={() => this.hideDelete()}
                       >
                       <Text style={styles.textStyle}>No</Text>
                       </Pressable>
+
                     </View>
+
                   </View>
                 </View>
               </Modal>
               {tempQuizzes}
             </View>
+
           </ScrollView>
         </SafeAreaView>
       );

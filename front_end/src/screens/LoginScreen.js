@@ -4,7 +4,7 @@ import {View, Text, TextInput, StyleSheet} from "react-native";
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {default as KMServerClient, ClientReturnObj} from '../services/KMServerClient';
-import UserLoginModel from '../services/Models'
+import {UserLoginModel} from '../services/Models'
 import AppButton from "../components/AppButton"
 
 export default class LoginScreen extends React.Component {
@@ -47,30 +47,60 @@ export default class LoginScreen extends React.Component {
 				this.state.PasswordInputValue
 			)).then(response => {
 				if(response.error != null) {
-					console.error(error);
+					console.error(response.error);
+					this.setState({usernameError : "Username or Password is incorrect"});
 				} else {
 					this.props.navigation.navigate('UserHome');
-				}
-			})
-		}
+				};
+			});
+		};
 	}
 
 	render() {
 		return(
-			<View style={{flex: 1, justifyContent: 'center'}}>
+		<View style={{flex: 1, justifyContent: 'center'}}>
 			<View style = {{justifyContent: 'center', justifyContent: 'space-around', paddingHorizontal: 20}}>
-			<Text style = {styles.loginText}>LOG IN</Text>
-			<TextInput placeholder="Username" onChangeText={UsernameInputValue=> this.onEnterUsernameText(UsernameInputValue)} style={styles.loginInput}></TextInput>
-			{this.state.usernameError.length > 0 && <Text style = {styles.textDanger}>{this.state.usernameError}</Text>}
-			<TextInput placeholder="Password" secureTextEntry={true} onChangeText={PasswordInputValue=> this.onEnterPasswordText(PasswordInputValue)} style={styles.loginInput}></TextInput>
-			{this.state.passwordError.length > 0 && <Text style = {styles.textDanger}>{this.state.passwordError}</Text>}
-			<View style = {{paddingVertical: 20, opacity: this.state.opacityValue}}>
-				<AppButton title="LOG IN" opacity={this.state.buttonOpacity} onPress={() => this.props.navigation.navigate('UserHome')} style={{elevation: 8, backgroundColor: 'orange', borderRadius: 200, paddingVertical: 10,}}/>
-			</View>
-			<Text style = {styles.loginText}>DON'T HAVE AN ACCOUNT?</Text>
-			<View style = {{paddingVertical: 20}}>
-				<AppButton title="REGISTER" style={styles.loginContainer} onPress={() => this.props.navigation.navigate('Register')}/>
-			</View>
+
+				<Text style = {styles.loginText}>
+					LOG IN
+				</Text>
+
+				<TextInput 
+					placeholder="Username" 
+					onChangeText={UsernameInputValue=> this.onEnterUsernameText(UsernameInputValue)} 
+					style={styles.loginInput}>
+				</TextInput>
+				{this.state.usernameError.length > 0 && <Text style = {styles.textDanger}>{this.state.usernameError}</Text>}
+				
+				<TextInput 
+					placeholder="Password" 
+					secureTextEntry={true} 
+					onChangeText={PasswordInputValue=> this.onEnterPasswordText(PasswordInputValue)} 
+					style={styles.loginInput}>
+				</TextInput>
+				{this.state.passwordError.length > 0 && <Text style = {styles.textDanger}>{this.state.passwordError}</Text>}
+
+				<View style = {{paddingVertical: 20, opacity: this.state.opacityValue}}>
+					<AppButton 
+						title="LOG IN" 
+						opacity={this.state.buttonOpacity} 
+						onPress={() => this.pressLogin()} 
+						style={{elevation: 8, backgroundColor: 'orange', borderRadius: 200, paddingVertical: 10,}}>
+					</AppButton>
+				</View>
+
+				<Text style = {styles.loginText}>
+					DON'T HAVE AN ACCOUNT?
+				</Text>
+
+				<View style = {{paddingVertical: 20}}>
+					<AppButton 
+					title="REGISTER" 
+					style={styles.loginContainer} 
+					onPress={() => this.props.navigation.navigate('Register')}>
+					</AppButton>
+				</View>
+
 			</View>
 		</View>
 		);
