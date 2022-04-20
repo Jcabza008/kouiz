@@ -1,8 +1,10 @@
 import React from "react";
-import { View, Text, StyleSheet, ScrollView} from "react-native";
+import { View, Text, StyleSheet, ScrollView, LogBox} from "react-native";
 import Swiper from 'react-native-swiper'
 
 import AppButton from "../components/AppButton.js";
+
+LogBox.ignoreAllLogs();
 
 export default class Home extends React.Component {
 
@@ -23,7 +25,7 @@ export default class Home extends React.Component {
       let tempQuizzes = []
       var Quiz = ({quizName}) => (
         <View style = {{alignItems: 'center'}}>
-          <View style={{width: 300, height: 300, borderWidth: 2, borderColor: 'black', backgroundColor: 'white', marginLeft: 40, marginRight: 40}}>
+          <View style={{width: 300, height: 300, borderWidth: 2, borderColor: 'black', backgroundColor: 'white', marginLeft: 30, marginRight: 40}}>
               <View style = {{flex: 2}}>
                 <Text style = {{marginTop: 30, marginLeft: 35, marginRight: 35, fontWeight: 'bold', fontSize: 30}}>{quizName}</Text>
               </View>
@@ -38,7 +40,7 @@ export default class Home extends React.Component {
           </View>
         </View>
       );
-  
+   
       for (var i = 0; i < this.state.quizzes.length; i++)
       {
         tempQuizzes.push(Quiz({quizName: this.state.quizzes[i]}))
@@ -47,7 +49,7 @@ export default class Home extends React.Component {
       return(
       <View style = {{flex: 1, backgroundColor: '#FBFBFD'}}>
         <View style = {{flex: 3, justifyContent: "center"}}>
-          <Text style = {{textAlign: "center", fontSize: 15}}>Welcome back, Username!</Text>
+          <Text style = {{textAlign: "center", fontSize: 15}}>Welcome back, StevenHu9!</Text>
         </View>
         <View style = {{flex: 3, justifyContent: "center"}}>
           <Text style = {{textAlign: "center", fontSize: 30}}>Recent Quizzes</Text>

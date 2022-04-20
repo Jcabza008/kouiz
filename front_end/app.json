@@ -2,7 +2,7 @@
   "expo": {
     "name": "kouizme",
     "slug": "kouizme",
-    "version": "0.2.2-beta",
+    "version": "0.2.4-beta",
     "orientation": "portrait",
     "icon": "./src/assets/icon.png",
     "splash": {

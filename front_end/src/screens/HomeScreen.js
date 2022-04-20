@@ -15,17 +15,14 @@ export default function HomeScreen ({navigation}){
         <Text style = {{fontSize: 60, color: "#1B43E9", marginTop: 30}}>KouizMe</Text>
       </View>
       <View style={styles.imageContainer}>
-        <Swiper showsButtons={false}>
+        <Swiper showsButtons={false} paginationStyle ={{bottom: 0}}>
           <View style={{justifyContent: 'center', alignItems: 'center'}}>
             <FontAwesome name = "apple-alt" size={200} color="grey" style = {{}}></FontAwesome>
             <Text style = {{fontSize: 25, color: "black", marginTop: 50, paddingHorizontal: 100, textAlign: "center"}}>KouizMe is the #1 quiz app</Text>
           </View>
           <View style={{justifyContent: 'center', alignItems: 'center'}}>
-            <MaterialCommunityIcons name = "account" size={250} color="grey" style = {{}}></MaterialCommunityIcons>
+            <MaterialCommunityIcons name = "account" size={210} color="grey" style = {{}}></MaterialCommunityIcons>
             <Text style = {{fontSize: 25, color: "black", paddingHorizontal: 100, textAlign: "center"}}>Create an account to begin using KouizMe!</Text>
-          </View>
-          <View style={{justifyContent: 'center'}}>
-            <Text style={{textAlign: 'center', marginTop: 200}}>Turtle</Text>
           </View>
         </Swiper>
       </View>
