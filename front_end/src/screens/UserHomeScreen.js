@@ -1,6 +1,8 @@
 import React from "react";
 import { View, Text } from "react-native";
 
+import { default as KMServerClient, ClientReturnObj} from '../services/KMServerClient';
+
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem} from '@react-navigation/drawer';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -45,7 +47,19 @@ export default class UserHomeScreen extends React.Component {
                 </View>
                 <View style = {{flex: 1, justifyContent: 'flex-end'}}>
                   <DrawerItem label='Logout' 
-                  onPress={() => props.navigation.navigate('MainHome')} 
+                  onPress=
+                  { 
+                    () => {
+                      KMServerClient.logoutUser()
+                      .then(response => {
+                        if(response.error != null) {
+                          console.error(response.error);
+                        } else {
+                          this.props.navigation.navigate('MainHome');
+                        }
+                      });
+                    }
+                  }
                   />
                 </View>
               </View>
