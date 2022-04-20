@@ -2,3 +2,5 @@
 bin
 obj
 front_end/android/.gradle
+front_end/android/build
+front_end/android/app/build
