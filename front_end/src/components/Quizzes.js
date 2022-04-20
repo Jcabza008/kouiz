@@ -8,77 +8,124 @@ import { QuizModel } from "../services/Models"
 import AppButton from "../components/AppButton.js"
 
 
+
+
 export default class Quizzes extends React.Component {
     constructor(props) {
-      super(props)
-      this.state = {
-        quizzes: [],
-        deleteQuiz: false
-      }
+        super(props)
+        this.state = 
+        {
+            quizzes: [],
+            deleteQuiz: false
+        }
     }
-  
   
     addNewQuiz = (name) => 
     {
-      this.setState(this.state.quizzes.addQuiz(name))
+        this.setState(this.state.quizzes.addQuiz(name));
     }
 
     onPressDelete = () =>
     {
-      this.setState({deleteQuiz: true})
+        this.setState({deleteQuiz: true});
+    }
+
+    deleteQuiz = () =>
+    {
+        this.setState({deleteQuiz: false});
     }
 
     hideDelete = () =>
     {
-      this.setState({deleteQuiz: false})
+        this.setState({deleteQuiz: false});
     }
 
-    onPressEdit = () =>
+    onPressEdit = (quizName) =>
     {
-      this.props.navigation.navigate('QuizEditor')
+        let tempQuiz;
+        for (let i = 0; i < this.state.quizzes.length; i++)
+        {
+            if (quizName == this.state.quizzes[i].name)
+                tempQuiz = this.state.quizzes[i]
+        }
+        let questions = [];
+        let answers = [];
+        for (let i = 0; i < tempQuiz.questions.length; i++)
+        {
+            questions.push(tempQuiz.questions[i].prompt);
+            answers.push(tempQuiz.questions[i].answer);
+        }
+        this.props.navigation.navigate('QuizEditor',
+        {quizName: tempQuiz.name, create: false, questions: questions, answers: answers});
     }
 
     onPressQuiz = () =>
     {
-      this.props.navigation.navigate('Quiz')
+        let tempQuiz;
+        for (let i = 0; i < this.state.quizzes.length; i++)
+        {
+            if (quizName == this.state.quizzes[i].name)
+                tempQuiz = this.state.quizzes[i]
+        }
+        let questions = [];
+        let answers = [];
+        for (let i = 0; i < tempQuiz.questions.length; i++)
+        {
+            questions.push(tempQuiz.questions[i].prompt);
+            answers.push(tempQuiz.questions[i].answer);
+        }
+        this.props.navigation.navigate('Quiz',
+        {quizName: tempQuiz.name, create: false, questions: questions, answers: answers, index: Math.floor(math.random()*questions.length-1)});
     }
 
     componentDidMount()
     {
-      KMServerClient.getQuizzes()
-      .then(response => {
-        if(response.error != null) {
-        console.error(response.error);
-        } else {
-          this.state.quizzes = response.response
-        }
-      });
+        KMServerClient.getQuizzes()
+        .then(response => {
+            if(response.error != null) {
+                console.error(response.error);
+            } else {
+                this.state.quizzes = response.response
+            }
+        });
     }
     
     render()
     {
-      let tempQuizzes = []
-      var Quiz = ({quizName}) => (
-        <View style={{width: 300, height: 300, borderWidth: 2, borderColor: 'black', marginBottom: 20, backgroundColor: 'white', elevation: 20}}>
-            <View style = {{flex: 2}}>
-              <Icon name = "delete" size={30} color="red" style = {{marginTop: 10, marginLeft: 260}} onPress = {this.onPressDelete}></Icon>
-              <Text style = {{marginTop: 0, marginLeft: 35, marginRight: 35, fontWeight: 'bold', fontSize: 30}}>{quizName}</Text>
+        let tempQuizzes = [];
+        var Quiz = ({quizName}) => (
+            <View style={{width: 300, height: 300, borderWidth: 2, borderColor: 'black', marginBottom: 20, backgroundColor: 'white', elevation: 20}}>
+                <View style = {{flex: 2}}>
+                    <Icon name = "delete" size={30} color="red" style = {{marginTop: 10, marginLeft: 260}} onPress = {this.onPressDelete}></Icon>
+                    <Text style = {{marginTop: 0, marginLeft: 35, marginRight: 35, fontWeight: 'bold', fontSize: 30}}>{quizName}</Text>
+                </View>
+                <View style = {{flex: 1, borderTopColor: "black", borderTopWidth: 2, marginLeft: 20, marginRight: 20, flexDirection: "row"}}>
+                    <View style = {{flex: 1, flexDirection: "row", justifyContent: "center", marginTop: 20}}>
+                        <AppButton title = "Quiz" style={styles.loginContainer}  onPress = {this.onPressQuiz(quizName)}/>
+                    </View>
+                    <View style = {{flex: 1, flexDirection: "row", justifyContent: "center", marginTop: 20}}>
+                        <AppButton title = "Edit" style={styles.loginContainer} onPress = {this.onPressEdit(quizName)}/>
+                    </View>
+                </View>
             </View>
-            <View style = {{flex: 1, borderTopColor: "black", borderTopWidth: 2, marginLeft: 20, marginRight: 20, flexDirection: "row"}}>
-            <View style = {{flex: 1, flexDirection: "row", justifyContent: "center", marginTop: 20}}>
-              <AppButton title = "Quiz" style={styles.loginContainer}  onPress = {this.onPressQuiz}/>
+        );
+        var Empty = () => (
+            <View style = {{flex: 1, justifyContent: 'center'}}>
+                <Text style = {{fontSize: 30}}>Empty</Text>
             </View>
-            <View style = {{flex: 1, flexDirection: "row", justifyContent: "center", marginTop: 20}}>
-              <AppButton title = "Edit" style={styles.loginContainer} onPress = {this.onPressEdit}/>
-            </View>
-          </View>
-        </View>
-      );
-  
-      for (var i = 0; i < this.state.quizzes.length; i++)
-      {
-        tempQuizzes.push(Quiz({quizName: this.state.quizzes[i].name}))
-      }
+
+        );
+        if (this.state.quizzes.size == 0)
+        {
+            tempQuizzes.push(Empty());
+        }
+        else
+        {
+            for (var i = 0; i < this.state.quizzes.length; i++)
+            {
+                tempQuizzes.push(Quiz({quizName: this.state.quizzes[i].name}));
+            }
+        }
   
       return( 
         <SafeAreaView>
@@ -91,7 +138,7 @@ export default class Quizzes extends React.Component {
                     <View style = {{flexDirection: "row", padding: 20}}>
                       <Pressable
                         style={[styles.button, styles.buttonClose]}
-                        onPress={() => this.hideDelete()}
+                        onPress={() => this.deleteQuiz()}
                       >
                       <Text style={styles.textStyle}>Yes</Text>
                       </Pressable>

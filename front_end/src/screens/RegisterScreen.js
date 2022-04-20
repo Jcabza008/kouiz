@@ -93,7 +93,7 @@ export default class RegisterScreen extends React.Component {
 					)).then(response => {
 						if(response.error != null) {
 							console.error(response.error);
-              console.log("zz");
+                            console.log("zz");
 						} else {
 							this.props.navigation.navigate('UserHome');
 						}
