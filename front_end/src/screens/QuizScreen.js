@@ -13,7 +13,6 @@ export default class QuizScreen extends React.Component
             questions: props.route.params.questions,
             answers: props.route.params.answers,
             index: props.route.params.index,
-            currentQuestion: questions[index],
             correctAnswers: props.route.params.correctAnswers,
             wrongAnswers: props.route.params.correctQuestions
         }
@@ -59,7 +58,7 @@ export default class QuizScreen extends React.Component
         <View style = {{flex: 5, alignItems: 'center', marginTop: 100}}>
             <View style={{flex: 1, width: 350, height: 350, borderWidth: 2, borderColor: 'black', marginBottom: 20, backgroundColor: 'white', elevation: 20}}>
               <View style = {{padding: 20}}>
-                <Text style = {{fontSize: 22}}>{this.state.currentQuestion}</Text>
+                <Text style = {{fontSize: 22}}>{this.state.questions[this.state.index]}</Text>
               </View>
             </View>
           </View>
