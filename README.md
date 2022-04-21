@@ -16,17 +16,23 @@ Run the following command from the project root folder:
 Now the server and the database should be running.
 
 ### Start frontend in Dev Mode
-In order for the front end to work properly, you need to set an environmental variable to the IP address of the your computer;
-make sure this address belong to the same subnet where your phone is connected. To setup the environmental variable run:
+In order for the front end to work properly, you need to go to file `front_end/src/services/KMServerClient.js` and modify line: T
 
-`export HOST_ADDR=<your-ip-address>`
+`const hostAddress = "<ip-address>";`
 
-In order to run the frontend, go to folder `front_end/`, and run:
+to:
+
+`const hostAddress = "<your-ip-address>";`
+
+Then to run the frontend, go to folder `front_end/`, and run:
 
 `npm install & npm start`
 
 After expo loads, it's going to display a QR code, scan the QR code with your camera (iOS) or in the Expo Go App (Android).
 The app should load on your phone at this moment.
+
+### Other
+The most common problem is the firewall blocking our connection. Make sure to open ports `5000/tcp` and `19000/tcp`.
 
 ## Development
 ### Branches

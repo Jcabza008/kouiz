@@ -10,8 +10,8 @@ const authUsername = "curr_username";
 const authFirstName = "curr_firstname";
 const authLastName = "curr_lastname";
 const schema = "http";
-const hostAddress = process.env.HOST_ADDR;
-const hostPort = 5000;
+const hostAddress = "192.168.0.81";
+const hostPort = "5000";
 
 export class ClientReturnObj {
     constructor(response, error) {
