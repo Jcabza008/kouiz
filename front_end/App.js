@@ -15,6 +15,7 @@ import QuizEditorScreen from "./src/screens/QuizEditorScreen"
 import UserHomeScreen from "./src/screens/UserHomeScreen"
 import Home from "./src/components/Home"
 import QuizScreen from "./src/screens/QuizScreen"
+import AnswerScreen from "./src/screens/AnswerScreen"
 
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +31,7 @@ export default function App() {
         <Stack.Screen name ="Home" component = {Home} />
         <Stack.Screen name = "QuizEditor" component = {QuizEditorScreen} />
         <Stack.Screen name = "Quiz" component = {QuizScreen} />
+        <Stack.Screen name = "Answer" component = {AnswerScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   )

@@ -11,6 +11,11 @@ namespace kmserver.Models
     [CollectionName("Users")]
     public class ApplicationUser : MongoIdentityUser<Guid>
     {
+        [BsonElement("firstName")]
+        public string? FirstName { get; set; }
+
+        [BsonElement("lastName")]
+        public string? LastName { get; set; }
     }
 
     [CollectionName("Roles")]
@@ -30,13 +35,13 @@ namespace kmserver.Models
     public class UserRegisterModel
     {
         [Required(ErrorMessage = "Username is required")]
-        public string Username { get; set; }
+        public string? Username { get; set; }
 
         [Required]
-        public string FirstName { get; set; }
+        public string? FirstName { get; set; }
 
         [Required]
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
 
         [Required(ErrorMessage = "Password is required")]
         public string? Password { get; set; }

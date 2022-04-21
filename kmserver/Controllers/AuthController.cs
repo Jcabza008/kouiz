@@ -26,13 +26,15 @@ namespace kmserver.Controllers
                 ApplicationUser appUser = new ApplicationUser
                 {
                     UserName = userRegister.Username,
+                    FirstName = userRegister.FirstName,
+                    LastName = userRegister.LastName
                 };
 
                 IdentityResult result = await userManager.CreateAsync(appUser, userRegister.Password);
                 if (result.Succeeded)
                 {
-
-                    return Ok(result);
+                    var user = await userManager.FindByNameAsync(appUser.UserName);
+                    return Ok(user);
                 }
                 else
                 {

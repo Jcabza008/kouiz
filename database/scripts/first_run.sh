@@ -1,5 +1,5 @@
 #!/bin/bash
-# Root User 
+# Root User
 ROOTUSER="root"
 ROOTPASS="vkEy8!rJnp"
 ROOTDB="admin"

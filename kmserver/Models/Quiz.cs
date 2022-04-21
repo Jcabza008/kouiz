@@ -43,6 +43,9 @@ namespace kmserver.Models
         [BsonElement("answer")]
         public string Answer { get; set; }
 
+        [BsonElement("keywords")]
+        public List<string>? Keywords { get; set; }
+
         [BsonElement("order")]
         public int Order { get; set; }
 

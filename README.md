@@ -1,5 +1,39 @@
 # KouizMe
 [![build and test](https://github.com/Jcabza008/kouizme/actions/workflows/build_and_test.yml/badge.svg)](https://github.com/Jcabza008/kouizme/actions/workflows/build_and_test.yml)
+## How to run KouizMe in Dev Mode
+### Dependencies
+#### Backend and DB
+The backend and database for KouizMe run with docker compose, thus it is required that Docker be installed on the host computer.
+
+#### Frontend
+The frontend runs with NodeJS, thus it must be installed on the host computer.
+The mobile device where the app will be run needs to have Expo Go installed.
+### Start backend and databsae
+Run the following command from the project root folder:
+
+`docker-compose up -d`
+
+Now the server and the database should be running.
+
+### Start frontend in Dev Mode
+In order for the front end to work properly, you need to go to file `front_end/src/services/KMServerClient.js` and modify line: T
+
+`const hostAddress = "<ip-address>";`
+
+to:
+
+`const hostAddress = "<your-ip-address>";`
+
+Then to run the frontend, go to folder `front_end/`, and run:
+
+`npm install & npm start`
+
+After expo loads, it's going to display a QR code, scan the QR code with your camera (iOS) or in the Expo Go App (Android).
+The app should load on your phone at this moment.
+
+### Other
+The most common problem is the firewall blocking our connection. Make sure to open ports `5000/tcp` and `19000/tcp`.
+
 ## Development
 ### Branches
 All branches should be in the format `<name-of-owner>/<brief-description-of-work-to-be-completed>`.
