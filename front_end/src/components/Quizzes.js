@@ -81,13 +81,13 @@ export default class Quizzes extends React.Component {
     componentDidMount()
     {
 		try {
-            KMServerClient.getUserInfo()
-            .then(userinfo => {
-              this.state.userinfo = userinfo;
-            });
-        } catch(err) {
-            this.props.navigation.navigate("LoginScreen");
-        }
+			KMServerClient.getUserInfo()
+			.then(userinfo => {
+				this.state.userinfo = userinfo;
+			});
+		} catch(err) {
+			this.props.navigation.navigate("LoginScreen");
+		}
 
 		KMServerClient.getQuizzes()
 		.then(response => {

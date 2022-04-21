@@ -67,7 +67,6 @@ export default class KMServerClient extends React.Component {
         console.log("Method: " +method);
         console.log("Payload:" + payload);
         console.log("Auth: " + noauth);
-        console.log("Key: " + await AsyncStorage.getItem(authKeyName));
 
         let headers = {
             'accept' : 'text/plain',
