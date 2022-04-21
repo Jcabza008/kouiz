@@ -11,6 +11,11 @@ namespace kmserver.Models
     [CollectionName("Users")]
     public class ApplicationUser : MongoIdentityUser<Guid>
     {
+        [BsonElement("firstName")]
+        public string? FirstName { get; set; }
+
+        [BsonElement("lastName")]
+        public string? LastName { get; set; }
     }
 
     [CollectionName("Roles")]

@@ -22,23 +22,22 @@ export default function HomeScreen ({navigation}){
                 <Swiper showsButtons={false} paginationStyle ={{bottom: 0}}>
 
                     <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                        <FontAwesome 
-                          name = "apple-alt" 
-                          size={200} 
-                          color="grey" 
+                        <FontAwesome
+                          name = "apple-alt"
+                          size={200}
+                          color="grey"
                           style = {{}}>
                         </FontAwesome>
-                        
                         <Text style = {{fontSize: 25, color: "black", marginTop: 50, paddingHorizontal: 100, textAlign: "center"}}>
                           KouizMe is the #1 quiz app
                         </Text>
                     </View>
 
                     <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                        <MaterialCommunityIcons 
-                          name = "account" 
-                          size={210} 
-                          color="grey" 
+                        <MaterialCommunityIcons
+                          name = "account"
+                          size={210}
+                          color="grey"
                           style = {{}}>
                         </MaterialCommunityIcons>
 
