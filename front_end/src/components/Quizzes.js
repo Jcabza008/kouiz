@@ -10,13 +10,16 @@ import AppButton from "../components/AppButton.js"
 export default class Quizzes extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {
-            quizzes: [],
-            deleteQuiz: false
+        this.state =
+        {
+          userinfo: {},
+          quizzes: [],
+          deleteQuiz: false
         }
     }
-  
-    addNewQuiz = (name) => {
+
+    addNewQuiz = (name) =>
+    {
         this.setState(this.state.quizzes.addQuiz(name));
     }
 
@@ -75,32 +78,42 @@ export default class Quizzes extends React.Component {
         {quizName: tempQuiz.name, create: false, questions: questions, answers: answers, index: Math.floor(math.random()*questions.length-1)});
     }
 
-    componentDidMount() {
-        KMServerClient.getQuizzes()
-        .then(response => {
-            if(response.error != null) {
-                console.error(response.error);
-            } else {
-                this.state.quizzes = response.response
-            }
-        });
+    componentDidMount()
+    {
+		try {
+			KMServerClient.getUserInfo()
+			.then(userinfo => {
+				this.state.userinfo = userinfo;
+			});
+		} catch(err) {
+			this.props.navigation.navigate("LoginScreen");
+		}
+
+		KMServerClient.getQuizzes()
+		.then(response => {
+			if(response.error != null) {
+				console.error(response.error);
+			} else {
+				this.state.quizzes = response.response
+			}
+		});
     }
-    
-    render() {
-      
+
+    render()
+    {
         let tempQuizzes = [];
         var Quiz = ({quizName}) => (
             <View style={{width: 300, height: 300, borderWidth: 2, borderColor: 'black', marginBottom: 20, backgroundColor: 'white', elevation: 20}}>
 
                 <View style = {{flex: 2}}>
-                    <Icon 
+                    <Icon
                       name = "delete"
-                      size={30} 
-                      color="red" 
-                      style = {{marginTop: 10, marginLeft: 260}} 
+                      size={30}
+                      color="red"
+                      style = {{marginTop: 10, marginLeft: 260}}
                       onPress = {this.onPressDelete}>
                     </Icon>
-                    <Text 
+                    <Text
                       style = {{marginTop: 0, marginLeft: 35, marginRight: 35, fontWeight: 'bold', fontSize: 30}}>
                       {quizName}
                     </Text>
@@ -109,17 +122,17 @@ export default class Quizzes extends React.Component {
                 <View style = {{flex: 1, borderTopColor: "black", borderTopWidth: 2, marginLeft: 20, marginRight: 20, flexDirection: "row"}}>
 
                     <View style = {{flex: 1, flexDirection: "row", justifyContent: "center", marginTop: 20}}>
-                        <AppButton 
-                        title = "Quiz" 
-                        style={styles.loginContainer}  
+                        <AppButton
+                        title = "Quiz"
+                        style={styles.loginContainer}
                         onPress = {this.onPressQuiz(quizName)}>
                         </AppButton>
                     </View>
 
                     <View style = {{flex: 1, flexDirection: "row", justifyContent: "center", marginTop: 20}}>
-                        <AppButton 
-                        title = "Edit" 
-                        style={styles.loginContainer} 
+                        <AppButton
+                        title = "Edit"
+                        style={styles.loginContainer}
                         onPress = {this.onPressEdit(quizName)}>
                         </AppButton>
                     </View>
@@ -145,8 +158,8 @@ export default class Quizzes extends React.Component {
                 tempQuizzes.push(Quiz({quizName: this.state.quizzes[i].name}));
             }
         }
-  
-      return( 
+
+      return(
         <SafeAreaView>
           <ScrollView style = {{backgroundColor: '#FBFBFD'}}>
 

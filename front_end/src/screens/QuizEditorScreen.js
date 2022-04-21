@@ -13,8 +13,7 @@ import AppButton from "../components/AppButton"
 export default class QuizEditor extends React.Component {
     constructor(props) {
         super();
-        this.state = 
-        {
+        this.state = {
             quizName: props.route.params.quizName,
             editName: true,
             questions: props.route.params.questions,
@@ -66,7 +65,7 @@ export default class QuizEditor extends React.Component {
     onPressEditIcon = () => {
       this.setState({editName: false})
     }
-  
+
     onPressFinishEdit = () => {
       this.setState({editName: true})
     }
