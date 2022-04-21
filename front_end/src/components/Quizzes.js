@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, ScrollView, SafeAreaView, Modal, StyleSheet, Pressable} from "react-native";
+import { View, Text, ScrollView, SafeAreaView, StyleSheet, Pressable} from "react-native";
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { default as KMServerClient, ClientReturnObj} from '../services/KMServerClient';
@@ -16,7 +16,6 @@ export default class Quizzes extends React.Component {
         this.state = 
         {
             quizzes: [],
-            deleteQuiz: false
         }
     }
   
@@ -25,19 +24,23 @@ export default class Quizzes extends React.Component {
         this.setState(this.state.quizzes.addQuiz(name));
     }
 
-    onPressDelete = () =>
+    onPressDelete = (quizName) =>
     {
-        this.setState({deleteQuiz: true});
-    }
-
-    deleteQuiz = () =>
-    {
-        this.setState({deleteQuiz: false});
-    }
-
-    hideDelete = () =>
-    {
-        this.setState({deleteQuiz: false});
+        let index;
+        for (let i = 0; i < this.state.quizzes.length; i++)
+        {
+            if (quizName == this.state.quizzes[i].name)
+                this.quizzes.splice(this.state.i, 1);
+                index = i;
+        }
+        KMServerClient.deleteQuiz(this.state.quizzes[index].id)
+        .then(response => {
+            if(response.error != null) {
+                console.error(response.error);
+            } else {
+                this.state.quizzes = response.response
+            }
+        });
     }
 
     onPressEdit = (quizName) =>
@@ -75,7 +78,9 @@ export default class Quizzes extends React.Component {
             answers.push(tempQuiz.questions[i].answer);
         }
         this.props.navigation.navigate('Quiz',
-        {quizName: tempQuiz.name, create: false, questions: questions, answers: answers, index: Math.floor(math.random()*questions.length-1)});
+        {quizName: tempQuiz.name, create: false, questions: 
+        questions, answers: answers, index: Math.floor(math.random()*questions.length-1),
+        correctAnswers: 0, wrongAnswers: 0});
     }
 
     componentDidMount()
@@ -96,7 +101,7 @@ export default class Quizzes extends React.Component {
         var Quiz = ({quizName}) => (
             <View style={{width: 300, height: 300, borderWidth: 2, borderColor: 'black', marginBottom: 20, backgroundColor: 'white', elevation: 20}}>
                 <View style = {{flex: 2}}>
-                    <Icon name = "delete" size={30} color="red" style = {{marginTop: 10, marginLeft: 260}} onPress = {this.onPressDelete}></Icon>
+                    <Icon name = "delete" size={30} color="red" style = {{marginTop: 10, marginLeft: 260}} onPress = {this.onPressDelete(quizName)}></Icon>
                     <Text style = {{marginTop: 0, marginLeft: 35, marginRight: 35, fontWeight: 'bold', fontSize: 30}}>{quizName}</Text>
                 </View>
                 <View style = {{flex: 1, borderTopColor: "black", borderTopWidth: 2, marginLeft: 20, marginRight: 20, flexDirection: "row"}}>
@@ -111,7 +116,7 @@ export default class Quizzes extends React.Component {
         );
         var Empty = () => (
             <View style = {{flex: 1, justifyContent: 'center'}}>
-                <Text style = {{fontSize: 30}}>Empty</Text>
+                <Text style = {{fontSize: 30, marginTop: 30}}>Empty</Text>
             </View>
 
         );
@@ -131,27 +136,6 @@ export default class Quizzes extends React.Component {
         <SafeAreaView>
           <ScrollView style = {{backgroundColor: '#FBFBFD'}}>
             <View style={{flex: 1, alignItems: 'center', marginTop: 20}}>
-              <Modal animationType="slide" transparent={true} visible={this.state.deleteQuiz}>
-                <View style={styles.centeredView}>
-                  <View style={styles.modalView}>
-                    <Text style={styles.modalText}>Are you sure?</Text>
-                    <View style = {{flexDirection: "row", padding: 20}}>
-                      <Pressable
-                        style={[styles.button, styles.buttonClose]}
-                        onPress={() => this.deleteQuiz()}
-                      >
-                      <Text style={styles.textStyle}>Yes</Text>
-                      </Pressable>
-                      <Pressable
-                        style={[styles.button, styles.buttonClose]}
-                        onPress={() => this.hideDelete()}
-                      >
-                      <Text style={styles.textStyle}>No</Text>
-                      </Pressable>
-                    </View>
-                  </View>
-                </View>
-              </Modal>
               {tempQuizzes}
             </View>
           </ScrollView>
@@ -176,21 +160,6 @@ export default class Quizzes extends React.Component {
       alignItems: "center",
       marginTop: 22
     },
-    modalView: {
-      margin: 20,
-      backgroundColor: "white",
-      borderRadius: 20,
-      padding: 35,
-      alignItems: "center",
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 2
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
-      elevation: 5
-    },
     button: {
       borderRadius: 20,
       padding: 20,
@@ -208,9 +177,4 @@ export default class Quizzes extends React.Component {
       textAlign: "center",
       fontSize: 20
     },
-    modalText: {
-      marginBottom: 15,
-      textAlign: "center",
-      fontSize: 20
-    }
   });

@@ -87,17 +87,7 @@ export default class RegisterScreen extends React.Component {
         this.setState({usernameError:"Username has been taken or password is not valid."});
         this.setState({passwordError:"Password requires an uppercase character, lowercase character, number, and special character(!@#$)."});
 				} else {
-					KMServerClient.loginUser(new UserLoginModel(
-						this.state.username,
-						this.state.password
-					)).then(response => {
-						if(response.error != null) {
-							console.error(response.error);
-                            console.log("zz");
-						} else {
-							this.props.navigation.navigate('UserHome');
-						}
-					});
+					this.props.navigation.navigate('Login');
 				}
 			});
 		}
