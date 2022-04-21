@@ -65,7 +65,7 @@ export default class QuizEditor extends React.Component {
     onPressEditIcon = () => {
       this.setState({editName: false})
     }
-  
+
     onPressFinishEdit = () => {
       this.setState({editName: true})
     }

@@ -5,7 +5,7 @@ import { View, Text, StyleSheet} from "react-native";
 
 export default class Profile extends React.Component {
     state = {
-        userinfo: {},
+        userinfo: {}
     }
 
     componentDidMount()
@@ -61,5 +61,5 @@ export default class Profile extends React.Component {
                 </View>
             </View>
         );
-    }
-  }
+    };
+}
