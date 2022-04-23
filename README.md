@@ -16,7 +16,7 @@ Run the following command from the project root folder:
 Now the server and the database should be running.
 
 ### Start frontend in Dev Mode
-In order for the front end to work properly, you need to go to file `front_end/src/services/KMServerClient.js` and modify line: T
+In order for the front end to work properly, you need to go to file `front_end/src/services/KMServerClient.js` and modify line:
 
 `const hostAddress = "<ip-address>";`
 
